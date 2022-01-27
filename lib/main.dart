@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:hackathon_slide_puzzle/components/animation.dart';
 import 'package:hackathon_slide_puzzle/components/board.dart';
-import 'package:hackathon_slide_puzzle/components/stateful.dart';
+import 'package:hackathon_slide_puzzle/components/music_player.dart';
 import 'package:hackathon_slide_puzzle/reducers/puzzle_reducer.dart';
 import 'package:hackathon_slide_puzzle/services/puzzle_service.dart';
 import 'package:hackathon_slide_puzzle/states/puzzle_state.dart';
@@ -52,9 +52,15 @@ class MyHomePage extends StatelessWidget {
         appBar: AppBar(
           title: Text(title),
         ),
-        body: Row(children: const [
-          Board(),
-          SizedBox(child: PlayPauseAnimation(), width: 800, height: 600),
+        body: Row(children: [
+          Row(children: const [
+            Board(),
+          ]),
+          const SizedBox(child: PlayPauseAnimation(), width: 800, height: 600),
+          // const MusicPlayer(
+          //   key: Key("music-player-widget"),
+          // )
+          // const AudioWidget()
         ]));
   }
 }
