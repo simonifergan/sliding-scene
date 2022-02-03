@@ -1,21 +1,24 @@
+import 'dart:math';
+
 import 'package:hackathon_slide_puzzle/interfaces/position.dart';
 import 'package:hackathon_slide_puzzle/interfaces/tile.dart';
+import 'package:hackathon_slide_puzzle/states/puzzle_state.dart';
 
 typedef Puzzle = List<Tile>;
 
-class PuzzleService {
-  static Puzzle init() {
+enum GameStatus { playing, done }
+
+abstract class PuzzleService {
+  static Puzzle init({int size = 4}) {
     Puzzle tiles = [];
-    int number = 0;
-    for (var i = 0; i < 4; i++) {
-      for (var j = 0; j < 4; j++) {
-        final posX = i + 1;
-        final posY = j + 1;
+    int number = 1;
+    for (var i = 0; i < size; i++) {
+      for (var j = 0; j < size; j++) {
         tiles.add(Tile(
-          position: Position(x: i, y: j),
-          currentPosition: Position(x: i, y: j),
+          position: Position(x: j, y: i),
+          currentPosition: Position(x: j, y: i),
           number: number,
-          isWhitespace: i == 4 - 1 && j == 4 - 1,
+          isWhitespace: i == size - 1 && j == size - 1,
         ));
         number++;
       }
@@ -23,8 +26,29 @@ class PuzzleService {
     return tiles;
   }
 
+  static GameStatus getGameStatus(Puzzle tiles) {
+    var i = 0;
+    return tiles.every((Tile tile) {
+      bool isDone = i == tile.number;
+      i++;
+      return isDone;
+    })
+        ? GameStatus.done
+        : GameStatus.playing;
+  }
+
+  static double calculateTileAbsPosition(
+      double measure, int x, int puzzleSize) {
+    return (measure / puzzleSize) * x.toDouble();
+  }
+
+  static Puzzle sortTiles(Puzzle tiles) {
+    return tiles.toList()
+      ..sort((Tile tileA, Tile tileB) =>
+          tileA.currentPosition.compareTo(tileB.currentPosition));
+  }
+
   static Puzzle onTap(Puzzle tiles, Tile tappedTile) {
-    print("TAPPALAB");
     int tappedTileIndex = -1, emptyTileIndex = -1;
 
     if (tappedTile.isWhitespace) {
@@ -56,4 +80,12 @@ class PuzzleService {
 
     return changedTiles;
   }
+
+  // static Puzzle shuffle(Puzzle tiles) {
+  //   final numbers = List.generate(tiles.length, (_,index) => index);
+  //   return List.generate(numbers.length, (index) {
+  //     final randomNumberIndex =
+  //     numbers[Random()]
+  //   })
+  // }
 }

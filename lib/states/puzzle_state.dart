@@ -1,7 +1,13 @@
 import 'package:hackathon_slide_puzzle/services/puzzle_service.dart';
 
-class PuzzleState {
-  Puzzle tiles = [];
+const double tileSize = 180; // Desktop
 
-  PuzzleState({required this.tiles});
+class PuzzleState {
+  PuzzleState({required this.tiles, this.size = 4}) {
+    gameStatus = PuzzleService.getGameStatus(tiles);
+  }
+
+  Puzzle tiles = [];
+  int size;
+  GameStatus gameStatus = GameStatus.done;
 }

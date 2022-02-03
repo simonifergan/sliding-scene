@@ -2,14 +2,14 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 
 import 'package:flutter/material.dart';
 
-class MusicPlayer extends StatefulWidget {
-  const MusicPlayer({Key? key}) : super(key: key);
+class MusicPlayerWidget extends StatefulWidget {
+  const MusicPlayerWidget({Key? key}) : super(key: key);
 
   @override
-  _MusicPlayerState createState() => _MusicPlayerState();
+  _MusicPlayerWidgetState createState() => _MusicPlayerWidgetState();
 }
 
-class _MusicPlayerState extends State<MusicPlayer> {
+class _MusicPlayerWidgetState extends State<MusicPlayerWidget> {
   late AssetsAudioPlayer musicPlayer;
 
   @override
