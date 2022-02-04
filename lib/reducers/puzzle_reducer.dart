@@ -18,14 +18,16 @@ PuzzleState puzzleReducer(PuzzleState state, dynamic action) {
         return PuzzleState(
             size: state.size,
             tiles: tiles,
-            correctTiles: puzzleService.getCorrectTiles(tiles));
+            correctTiles: puzzleService.getCorrectTiles(tiles),
+            metadata: state.metadata);
       }
     case PuzzleActions.shuffleBoard:
       {
         return PuzzleState(
-            correctTiles: [],
             size: state.size,
-            tiles: puzzleService.shuffle(state.tiles));
+            tiles: puzzleService.shuffle(state.tiles),
+            correctTiles: [],
+            metadata: state.metadata);
       }
   }
 

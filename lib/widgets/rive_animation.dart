@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:hackathon_slide_puzzle/app/puzzles/windmill.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+
 import 'package:hackathon_slide_puzzle/interfaces/tile.dart';
+import 'package:hackathon_slide_puzzle/states/puzzle_state.dart';
 import 'package:rive/rive.dart';
 
 class RiveAnimationWidget extends StatefulWidget {
-  const RiveAnimationWidget(
-      {Key? key, required this.tile, required this.correctTiles})
-      : super(key: key);
+  const RiveAnimationWidget({Key? key, required this.tile}) : super(key: key);
   final Tile tile;
-  final List<int> correctTiles;
 
   @override
   _RiveAnimationWidgetState createState() => _RiveAnimationWidgetState();
@@ -19,7 +18,6 @@ class _RiveAnimationWidgetState extends State<RiveAnimationWidget> {
 
   final SimpleAnimation idleController = SimpleAnimation("idle");
   final SimpleAnimation playController = SimpleAnimation("play");
-  final WindmillPuzzle windmillPuzzle = WindmillPuzzle();
 
   @override
   void initState() {
@@ -32,16 +30,22 @@ class _RiveAnimationWidgetState extends State<RiveAnimationWidget> {
     });
   }
 
-  bool shouldPlayAnimaion(Tile tile, List<int> correctTiles) {
-    return windmillPuzzle.groups
+  bool shouldPlayAnimaion(Tile tile) {
+    final state = (StoreProvider.of<PuzzleState>(context).state);
+    final correctTiles = state.correctTiles;
+    final metadata = state.metadata;
+
+    final isInPosition = tile.currentPosition.compareTo(tile.position) == 0;
+    final isGroupAligned = metadata.animationGroups
         .any((group) => group.every((index) => correctTiles.contains(index)));
+
+    return isInPosition && isGroupAligned;
   }
 
-  void checkPosition() {
+  void handleWidgetUpdate() {
     final tile = widget.tile;
 
-    if (tile.currentPosition.compareTo(tile.position) == 0 &&
-        shouldPlayAnimaion(tile, widget.correctTiles)) {
+    if (shouldPlayAnimaion(tile)) {
       selectedArtboard.removeController(idleController);
       selectedArtboard.addController(playController);
       return;
@@ -54,7 +58,7 @@ class _RiveAnimationWidgetState extends State<RiveAnimationWidget> {
 
   @override
   void didUpdateWidget(covariant RiveAnimationWidget oldWidget) {
-    checkPosition();
+    handleWidgetUpdate();
     super.didUpdateWidget(oldWidget);
   }
 

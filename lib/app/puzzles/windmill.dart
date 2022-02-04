@@ -1,10 +1,7 @@
-import 'package:equatable/equatable.dart';
+import 'package:hackathon_slide_puzzle/interfaces/metadata.dart';
 
-class WindmillPuzzle extends Equatable {
-  final List<List<int>> groups = [
+windmillPuzzle() {
+  return const PuzzleMetadata(animationGroups: [
     [3, 4, 7, 8]
-  ];
-
-  @override
-  List<Object?> get props => [groups];
+  ]);
 }

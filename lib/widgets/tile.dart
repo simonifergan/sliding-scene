@@ -37,18 +37,15 @@ class _TileWidgetState extends State<TileWidget> {
                 decoration: BoxDecoration(
                     border: Border.all(
                       color: tile.position.compareTo(tile.currentPosition) == 0
-                          ? Colors.yellow
-                          : Colors.black,
+                          ? Colors.green
+                          : Colors.red,
                     ),
                     borderRadius: BorderRadius.circular(4)),
                 width: tileSize,
                 height: tileSize,
-                child: StoreConnector<PuzzleState, List<int>>(
-                    converter: (store) => store.state.correctTiles,
-                    builder: (_, correctTiles) => RiveAnimationWidget(
-                          key: Key("rive-animation-tile-${tile.number}"),
-                          tile: tile,
-                          correctTiles: correctTiles,
-                        )))));
+                child: RiveAnimationWidget(
+                  key: Key("rive-animation-tile-${tile.number}"),
+                  tile: tile,
+                ))));
   }
 }
