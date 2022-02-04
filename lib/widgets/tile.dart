@@ -29,7 +29,6 @@ class _TileWidgetState extends State<TileWidget> {
             calculateAlignment(tile.currentPosition.y)),
         child: GestureDetector(
             onTap: () {
-              print(tile.currentPosition);
               StoreProvider.of<PuzzleState>(context).dispatch(
                   PuzzleAction(type: PuzzleActions.moveTile, payload: tile));
             },
@@ -44,8 +43,12 @@ class _TileWidgetState extends State<TileWidget> {
                     borderRadius: BorderRadius.circular(4)),
                 width: tileSize,
                 height: tileSize,
-                child: RiveAnimationWidget(
-                  artboard: tile.number.toString(),
-                ))));
+                child: StoreConnector<PuzzleState, List<int>>(
+                    converter: (store) => store.state.correctTiles,
+                    builder: (_, correctTiles) => RiveAnimationWidget(
+                          key: Key("rive-animation-tile-${tile.number}"),
+                          tile: tile,
+                          correctTiles: correctTiles,
+                        )))));
   }
 }

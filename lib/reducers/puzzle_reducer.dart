@@ -14,13 +14,18 @@ PuzzleState puzzleReducer(PuzzleState state, dynamic action) {
   switch (action.type) {
     case PuzzleActions.moveTile:
       {
-        Puzzle tiles = PuzzleService.onTap(state.tiles, action.payload);
-        return PuzzleState(size: state.size, tiles: tiles);
+        Puzzle tiles = puzzleService.moveTile(state.tiles, action.payload);
+        return PuzzleState(
+            size: state.size,
+            tiles: tiles,
+            correctTiles: puzzleService.getCorrectTiles(tiles));
       }
     case PuzzleActions.shuffleBoard:
       {
-        // return PuzzleState(
-        //     size: state.size, tiles: PuzzleService.shuffle(tiles));
+        return PuzzleState(
+            correctTiles: [],
+            size: state.size,
+            tiles: puzzleService.shuffle(state.tiles));
       }
   }
 

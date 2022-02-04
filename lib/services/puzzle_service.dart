@@ -1,15 +1,12 @@
-import 'dart:math';
-
 import 'package:hackathon_slide_puzzle/interfaces/position.dart';
 import 'package:hackathon_slide_puzzle/interfaces/tile.dart';
-import 'package:hackathon_slide_puzzle/states/puzzle_state.dart';
 
 typedef Puzzle = List<Tile>;
 
 enum GameStatus { playing, done }
 
-abstract class PuzzleService {
-  static Puzzle init({int size = 4}) {
+class PuzzleService {
+  Puzzle init({int size = 4}) {
     Puzzle tiles = [];
     int number = 1;
     for (var i = 0; i < size; i++) {
@@ -26,7 +23,7 @@ abstract class PuzzleService {
     return tiles;
   }
 
-  static GameStatus getGameStatus(Puzzle tiles) {
+  GameStatus getGameStatus(Puzzle tiles) {
     var i = 0;
     return tiles.every((Tile tile) {
       bool isDone = i == tile.number;
@@ -37,55 +34,107 @@ abstract class PuzzleService {
         : GameStatus.playing;
   }
 
-  static double calculateTileAbsPosition(
-      double measure, int x, int puzzleSize) {
+  double calculateTileAbsPosition(double measure, int x, int puzzleSize) {
     return (measure / puzzleSize) * x.toDouble();
   }
 
-  static Puzzle sortTiles(Puzzle tiles) {
+  Puzzle sortTiles(Puzzle tiles) {
     return tiles.toList()
       ..sort((Tile tileA, Tile tileB) =>
           tileA.currentPosition.compareTo(tileB.currentPosition));
   }
 
-  static Puzzle onTap(Puzzle tiles, Tile tappedTile) {
-    int tappedTileIndex = -1, emptyTileIndex = -1;
+  Tile _getWhitespaceTile(Puzzle tiles) {
+    // WHY YOU LOOK AT MY CODE?
+    return tiles.singleWhere((tile) => tile.isWhitespace);
+  }
 
-    if (tappedTile.isWhitespace) {
-      return tiles;
-    }
+  Puzzle _swapTiles(Puzzle tiles, Tile tileToSwap) {
+    final whitespaceTile = _getWhitespaceTile(tiles);
 
-    tappedTileIndex = tiles.indexWhere((tile) =>
-        tile.currentPosition.compareTo(tappedTile.currentPosition) == 0);
-    emptyTileIndex = tiles.indexWhere((tile) => tile.isWhitespace);
+    final tileIndex = tiles.indexOf(tileToSwap);
+    final whitespaceIndex = tiles.indexOf(whitespaceTile);
 
-    if (tappedTileIndex == -1 || emptyTileIndex == -1) {
-      return tiles;
-    }
-
-    final emptyTilePosition = tiles[emptyTileIndex].currentPosition;
-
-    Puzzle changedTiles = List.generate(tiles.length, (index) {
-      if (index == emptyTileIndex) {
-        return tiles[tappedTileIndex].clone(nextPosition: emptyTilePosition);
+    return List.generate(tiles.length, (index) {
+      if (index == whitespaceIndex) {
+        return tiles[tileIndex]
+            .clone(nextPosition: whitespaceTile.currentPosition);
       }
 
-      if (index == tappedTileIndex) {
-        return tiles[emptyTileIndex]
-            .clone(nextPosition: tappedTile.currentPosition);
+      if (index == tileIndex) {
+        return tiles[whitespaceIndex]
+            .clone(nextPosition: tileToSwap.currentPosition);
       }
 
       return tiles[index];
     });
-
-    return changedTiles;
   }
 
-  // static Puzzle shuffle(Puzzle tiles) {
-  //   final numbers = List.generate(tiles.length, (_,index) => index);
-  //   return List.generate(numbers.length, (index) {
-  //     final randomNumberIndex =
-  //     numbers[Random()]
-  //   })
-  // }
+  Puzzle moveTile(Puzzle tiles, Tile currentTile) {
+    if (currentTile.isWhitespace) {
+      return tiles;
+    }
+
+    final whitespaceTile = _getWhitespaceTile(tiles);
+
+    // Not in row or column
+    if (whitespaceTile.currentPosition.x != currentTile.currentPosition.x &&
+        whitespaceTile.currentPosition.y != currentTile.currentPosition.y) {
+      return tiles;
+    }
+
+    final deltaX =
+        whitespaceTile.currentPosition.x - currentTile.currentPosition.x;
+    final deltaY =
+        whitespaceTile.currentPosition.y - currentTile.currentPosition.y;
+
+    if (deltaX.abs() + deltaY.abs() > 1) {
+      final nextX = currentTile.currentPosition.x + deltaX.sign;
+      final nextY = currentTile.currentPosition.y + deltaY.sign;
+
+      final blockingTile = tiles.singleWhere((nextTile) =>
+          nextTile.currentPosition.x == nextX &&
+          nextTile.currentPosition.y == nextY);
+
+      return _swapTiles(moveTile([...tiles], blockingTile), currentTile);
+    }
+    return _swapTiles(tiles, currentTile);
+  }
+
+  List<int> getCorrectTiles(Puzzle tiles) {
+    final List<int> correctTiles = [];
+    for (var tile in tiles) {
+      if (tile.isWhitespace) {
+        continue;
+      }
+
+      if (tile.currentPosition.compareTo(tile.position) == 0) {
+        correctTiles.add(tile.number);
+      }
+    }
+
+    return correctTiles;
+  }
+
+  Puzzle shuffle(Puzzle tiles) {
+    final List<Position> availablePosition = [];
+    for (var tile in tiles) {
+      if (tile.isWhitespace) {
+        continue;
+      }
+
+      availablePosition.add(tile.position);
+    }
+    availablePosition.shuffle();
+    return List.generate(tiles.length, (index) {
+      final currentTile = tiles[index];
+      if (currentTile.isWhitespace) {
+        return currentTile.clone(nextPosition: currentTile.position);
+      }
+
+      return currentTile.clone(nextPosition: availablePosition.removeAt(0));
+    });
+  }
 }
+
+final puzzleService = PuzzleService();

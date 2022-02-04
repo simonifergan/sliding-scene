@@ -11,7 +11,8 @@ import 'package:redux/redux.dart';
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
   final store = Store<PuzzleState>(puzzleReducer,
-      initialState: PuzzleState(tiles: PuzzleService.init(size: 4)));
+      initialState:
+          PuzzleState(tiles: puzzleService.init(size: 4), correctTiles: []));
 
   // This widget is the root of your application.
   @override
@@ -40,12 +41,18 @@ class MyHomePage extends StatelessWidget {
         Column(
           children: [
             Row(children: [
-              Container(
-                decoration:
-                    BoxDecoration(border: Border.all(color: Colors.red)),
-                width: tileSize * 2,
-                height: tileSize * 2,
-              )
+              GestureDetector(
+                  onTap: () {
+                    StoreProvider.of<PuzzleState>(context).dispatch(
+                        PuzzleAction(
+                            type: PuzzleActions.shuffleBoard, payload: null));
+                  },
+                  child: Container(
+                    decoration:
+                        BoxDecoration(border: Border.all(color: Colors.red)),
+                    width: tileSize * 2,
+                    height: tileSize * 2,
+                  ))
             ]),
           ],
         ),
