@@ -9,13 +9,12 @@ class PuzzleState {
     required this.correctTiles,
     required this.metadata,
     this.size = 4,
-  }) {
-    gameStatus = puzzleService.getGameStatus(tiles);
-  }
+    this.gameStatus = GameStatus.notPlaying,
+  });
 
   Puzzle tiles = [];
   int size;
-  GameStatus gameStatus = GameStatus.done;
+  GameStatus gameStatus = GameStatus.notPlaying;
   List<int> correctTiles;
   PuzzleMetadata metadata;
 }

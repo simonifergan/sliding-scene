@@ -3,7 +3,7 @@ import 'package:hackathon_slide_puzzle/interfaces/tile.dart';
 
 typedef Puzzle = List<Tile>;
 
-enum GameStatus { playing, done }
+enum GameStatus { playing, done, notPlaying, shuffling }
 
 class PuzzleService {
   Puzzle init({int size = 4}) {
@@ -23,13 +23,8 @@ class PuzzleService {
     return tiles;
   }
 
-  GameStatus getGameStatus(Puzzle tiles) {
-    var i = 0;
-    return tiles.every((Tile tile) {
-      bool isDone = i == tile.number;
-      i++;
-      return isDone;
-    })
+  GameStatus getGameStatus(Puzzle tiles, List<int> correctTiles) {
+    return tiles.length - 1 == correctTiles.length
         ? GameStatus.done
         : GameStatus.playing;
   }

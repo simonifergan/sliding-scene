@@ -1,7 +1,7 @@
 import 'package:hackathon_slide_puzzle/services/puzzle_service.dart';
 import 'package:hackathon_slide_puzzle/states/puzzle_state.dart';
 
-enum PuzzleActions { moveTile, shuffleBoard }
+enum PuzzleActions { moveTile, shuffleBoard, setGameStatus }
 
 class PuzzleAction {
   PuzzleAction({required this.type, required this.payload});
@@ -22,13 +22,19 @@ PuzzleState puzzleReducer(PuzzleState state, dynamic action) {
             metadata: state.metadata);
       }
     case PuzzleActions.shuffleBoard:
-      {
-        return PuzzleState(
-            size: state.size,
-            tiles: puzzleService.shuffle(state.tiles),
-            correctTiles: [],
-            metadata: state.metadata);
-      }
+      return PuzzleState(
+          size: state.size,
+          tiles: puzzleService.shuffle(state.tiles),
+          correctTiles: [],
+          metadata: state.metadata);
+
+    case PuzzleActions.setGameStatus:
+      return PuzzleState(
+          size: state.size,
+          tiles: state.tiles,
+          correctTiles: [],
+          metadata: state.metadata,
+          gameStatus: action.payload);
   }
 
   return state;

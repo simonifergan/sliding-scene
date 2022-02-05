@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:hackathon_slide_puzzle/reducers/puzzle_reducer.dart';
 import 'package:hackathon_slide_puzzle/states/puzzle_state.dart';
 import 'package:hackathon_slide_puzzle/widgets/board.dart';
+import 'package:hackathon_slide_puzzle/widgets/shuffle.dart';
 
 class PuzzleView extends StatelessWidget {
   const PuzzleView({Key? key, required this.title}) : super(key: key);
@@ -23,11 +24,11 @@ class PuzzleView extends StatelessWidget {
                             type: PuzzleActions.shuffleBoard, payload: null));
                   },
                   child: Container(
-                    decoration:
-                        BoxDecoration(border: Border.all(color: Colors.red)),
-                    width: tileSize * 2,
-                    height: tileSize * 2,
-                  ))
+                      decoration:
+                          BoxDecoration(border: Border.all(color: Colors.red)),
+                      width: tileSize * 2,
+                      height: tileSize * 2,
+                      child: const ShuffleButton()))
             ]),
           ],
         ),
