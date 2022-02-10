@@ -51,6 +51,7 @@ class _RiveAnimationWidgetState extends State<RiveAnimationWidget> {
       return;
     }
 
+    idleController.reset();
     playController.reset();
     selectedArtboard.removeController(playController);
     selectedArtboard.addController(idleController);
@@ -65,7 +66,7 @@ class _RiveAnimationWidgetState extends State<RiveAnimationWidget> {
   @override
   Widget build(BuildContext context) {
     return RiveAnimation.asset(
-      'rive/windmill_2.riv',
+      'rive/windmill.riv',
       artboard: widget.tile.number.toString(),
       fit: BoxFit.fill,
       onInit: initArtboard,

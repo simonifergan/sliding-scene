@@ -2,6 +2,7 @@ import 'package:hackathon_slide_puzzle/interfaces/metadata.dart';
 import 'package:hackathon_slide_puzzle/services/puzzle_service.dart';
 
 const double tileSize = 180; // Desktop
+// const double tileSize = 80; // mobile
 
 class PuzzleState {
   PuzzleState({

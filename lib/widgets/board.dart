@@ -22,9 +22,18 @@ class Board extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(border: Border.all(color: Colors.pink)),
-      width: tileSize * 5,
-      height: tileSize * 5,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 0.5,
+                spreadRadius: 3)
+          ],
+          borderRadius: BorderRadius.circular(10),
+          color: const Color(0xFF3c4274)),
+      constraints:
+          const BoxConstraints(maxWidth: tileSize * 5, maxHeight: tileSize * 5),
       child: StoreConnector<PuzzleState, Puzzle>(
           converter: (store) => store.state.tiles,
           builder: (context, Puzzle tiles) => Stack(

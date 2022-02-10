@@ -23,6 +23,34 @@ class PuzzleService {
     return tiles;
   }
 
+  bool _isInversion(Tile tileA, Tile tileB) {
+    if (!tileB.isWhitespace && tileA.number != tileB.number) {
+      if (tileB.number < tileA.number) {
+        return tileB.currentPosition.compareTo(tileA.currentPosition) > 0;
+      } else {
+        return tileA.currentPosition.compareTo(tileB.currentPosition) > 0;
+      }
+    }
+    return false;
+  }
+
+  bool isSolvable(Puzzle tiles) {
+    int inversions = 0;
+    for (var i = 0; i < tiles.length; i++) {
+      final tileA = tiles[i];
+      if (tileA.isWhitespace) {
+        continue;
+      }
+
+      for (var j = i + 1; j < tiles.length; j++) {
+        final tileB = tiles[j];
+        inversions += _isInversion(tileA, tileB) ? 1 : 0;
+      }
+    }
+
+    return inversions.isEven;
+  }
+
   GameStatus getGameStatus(Puzzle tiles, List<int> correctTiles) {
     return tiles.length - 1 == correctTiles.length
         ? GameStatus.done
@@ -121,7 +149,7 @@ class PuzzleService {
       availablePosition.add(tile.position);
     }
     availablePosition.shuffle();
-    return List.generate(tiles.length, (index) {
+    final shuffledTiles = List.generate(tiles.length, (index) {
       final currentTile = tiles[index];
       if (currentTile.isWhitespace) {
         return currentTile.clone(nextPosition: currentTile.position);
@@ -129,6 +157,10 @@ class PuzzleService {
 
       return currentTile.clone(nextPosition: availablePosition.removeAt(0));
     });
+
+    final shouldReShuffle = !isSolvable(shuffledTiles);
+
+    return shouldReShuffle ? shuffle(shuffledTiles) : shuffledTiles;
   }
 }
 

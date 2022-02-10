@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:hackathon_slide_puzzle/reducers/puzzle_reducer.dart';
 import 'package:hackathon_slide_puzzle/states/puzzle_state.dart';
 import 'package:hackathon_slide_puzzle/widgets/board.dart';
-import 'package:hackathon_slide_puzzle/widgets/shuffle.dart';
+import 'package:hackathon_slide_puzzle/widgets/menu.dart';
 
+// Color(0xFF0B1B28),
+//   Color(0xFF1A3245),
+//   Color(0xFF294862),
+//   Color(0xFF385F7F),
+//   Color(0xFF47759C),
+//   Color(0xFF568CB9),
+//   Color(0xFF65A2D6),
+//   Color(0xFF65A2D6),
+//   Color(0xFF568CB9),
+//   Color(0xFF47759C),
+//   Color(0xFF385F7F),
+//   Color(0xFF294862),
+//   Color(0xFF1A3245),
+//   Color(0xFF0B1B28),
 class PuzzleView extends StatelessWidget {
   const PuzzleView({Key? key, required this.title}) : super(key: key);
 
@@ -12,30 +24,13 @@ class PuzzleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Row(children: [
-        Column(
-          children: [
-            Row(children: [
-              GestureDetector(
-                  onTap: () {
-                    StoreProvider.of<PuzzleState>(context).dispatch(
-                        PuzzleAction(
-                            type: PuzzleActions.shuffleBoard, payload: null));
-                  },
-                  child: Container(
-                      decoration:
-                          BoxDecoration(border: Border.all(color: Colors.red)),
-                      width: tileSize * 2,
-                      height: tileSize * 2,
-                      child: const ShuffleButton()))
-            ]),
-          ],
-        ),
-        const Center(
-          child: Board(),
-        )
-      ]),
-    );
+    return Container(
+        color: const Color(0xFF2b3058),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              // Menu(key: Key("menu")),
+              Board(),
+            ]));
   }
 }

@@ -24,11 +24,12 @@ class App extends StatelessWidget {
     return StoreProvider<PuzzleState>(
         store: store,
         child: MaterialApp(
-          title: 'Sliding Seasons',
+          title: 'Sliding Scene',
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: const PuzzleView(title: 'Sliding Seasons'),
+          home:
+              const PuzzleView(key: Key("puzzle-view"), title: 'Sliding Scene'),
         ));
   }
 }
