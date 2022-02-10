@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-import 'package:hackathon_slide_puzzle/interfaces/tile.dart';
-import 'package:hackathon_slide_puzzle/states/puzzle_state.dart';
+import 'package:sliding_scene/interfaces/tile.dart';
+import 'package:sliding_scene/states/puzzle_state.dart';
 import 'package:rive/rive.dart';
 
 class RiveAnimationWidget extends StatefulWidget {

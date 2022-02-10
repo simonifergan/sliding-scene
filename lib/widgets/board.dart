@@ -2,10 +2,10 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-import 'package:hackathon_slide_puzzle/interfaces/tile.dart';
-import 'package:hackathon_slide_puzzle/services/puzzle_service.dart';
-import 'package:hackathon_slide_puzzle/states/puzzle_state.dart';
-import 'package:hackathon_slide_puzzle/widgets/tile.dart';
+import 'package:sliding_scene/interfaces/tile.dart';
+import 'package:sliding_scene/services/puzzle_service.dart';
+import 'package:sliding_scene/states/puzzle_state.dart';
+import 'package:sliding_scene/widgets/tile.dart';
 
 class Board extends StatelessWidget {
   const Board({Key? key}) : super(key: key);

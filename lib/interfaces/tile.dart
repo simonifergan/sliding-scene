@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:hackathon_slide_puzzle/interfaces/position.dart';
+import 'package:sliding_scene/interfaces/position.dart';
 
 class Tile extends Equatable {
   const Tile({

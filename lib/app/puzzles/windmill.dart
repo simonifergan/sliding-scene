@@ -1,4 +1,4 @@
-import 'package:hackathon_slide_puzzle/interfaces/metadata.dart';
+import 'package:sliding_scene/interfaces/metadata.dart';
 
 windmillPuzzle() {
   return const PuzzleMetadata(animationGroups: [

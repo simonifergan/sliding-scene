@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hackathon_slide_puzzle/states/puzzle_state.dart';
-import 'package:hackathon_slide_puzzle/widgets/board.dart';
-import 'package:hackathon_slide_puzzle/widgets/menu.dart';
+import 'package:sliding_scene/states/puzzle_state.dart';
+import 'package:sliding_scene/widgets/board.dart';
+import 'package:sliding_scene/widgets/menu.dart';
 
 // Color(0xFF0B1B28),
 //   Color(0xFF1A3245),
@@ -26,11 +26,20 @@ class PuzzleView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         color: const Color(0xFF2b3058),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              // Menu(key: Key("menu")),
-              Board(),
-            ]));
+        child: Row(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Menu(key: Key("menu")),
+              ],
+            ),
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Board(),
+                ]),
+          ],
+        ));
   }
 }

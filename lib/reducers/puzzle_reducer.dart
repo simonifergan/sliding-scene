@@ -1,5 +1,5 @@
-import 'package:hackathon_slide_puzzle/services/puzzle_service.dart';
-import 'package:hackathon_slide_puzzle/states/puzzle_state.dart';
+import 'package:sliding_scene/services/puzzle_service.dart';
+import 'package:sliding_scene/states/puzzle_state.dart';
 
 enum PuzzleActions { moveTile, shuffleBoard, setGameStatus }
 

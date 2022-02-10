@@ -11,13 +11,20 @@ class MusicPlayerWidget extends StatefulWidget {
 
 class _MusicPlayerWidgetState extends State<MusicPlayerWidget> {
   late AssetsAudioPlayer musicPlayer;
-
+  bool isPlaying = false;
   @override
   void initState() {
     musicPlayer = AssetsAudioPlayer.withId("music-player-widget");
-    musicPlayer
-        .open(Audio.file("assets/sounds/music/purple_cat-crescent_moon.mp3"));
+    musicPlayer.open(Audio.file("sounds/music/purple_cat-crescent_moon.mp3"),
+        autoStart: false);
     super.initState();
+  }
+
+  void toggle() {
+    musicPlayer.playOrPause();
+    setState(() {
+      isPlaying = !isPlaying;
+    });
   }
 
   @override
@@ -28,11 +35,9 @@ class _MusicPlayerWidgetState extends State<MusicPlayerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: const Text("hi"),
-      onTap: () {
-        musicPlayer.playOrPause();
-      },
-    );
+    return IconButton(
+        onPressed: toggle,
+        icon: Icon(
+            isPlaying ? Icons.volume_up_rounded : Icons.volume_off_rounded));
   }
 }

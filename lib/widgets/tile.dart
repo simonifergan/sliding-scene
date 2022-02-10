@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:hackathon_slide_puzzle/interfaces/tile.dart';
-import 'package:hackathon_slide_puzzle/reducers/puzzle_reducer.dart';
-import 'package:hackathon_slide_puzzle/states/puzzle_state.dart';
-import 'package:hackathon_slide_puzzle/widgets/rive_animation.dart';
+import 'package:sliding_scene/interfaces/tile.dart';
+import 'package:sliding_scene/reducers/puzzle_reducer.dart';
+import 'package:sliding_scene/states/puzzle_state.dart';
+import 'package:sliding_scene/widgets/rive_animation.dart';
 
 class TileWidget extends StatefulWidget {
   const TileWidget({Key? key, required this.tile}) : super(key: key);
@@ -22,6 +22,7 @@ class _TileWidgetState extends State<TileWidget> {
   @override
   Widget build(BuildContext context) {
     final tile = widget.tile;
+    final isInPosition = tile.position.compareTo(tile.currentPosition) == 0;
 
     return AnimatedAlign(
         duration: const Duration(milliseconds: 300),
@@ -32,15 +33,25 @@ class _TileWidgetState extends State<TileWidget> {
               StoreProvider.of<PuzzleState>(context).dispatch(
                   PuzzleAction(type: PuzzleActions.moveTile, payload: tile));
             },
-            child: Container(
-                clipBehavior: Clip.hardEdge,
+            child: AnimatedContainer(
+                key: Key("tile-animated-container-${tile.number}"),
+                duration: const Duration(milliseconds: 300),
+                clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
-                    border: Border.all(
-                      color: tile.position.compareTo(tile.currentPosition) == 0
-                          ? Colors.green
-                          : Colors.red,
-                    ),
-                    borderRadius: BorderRadius.circular(4)),
+                    borderRadius: BorderRadius.circular(4),
+                    boxShadow: [
+                      BoxShadow(
+                        color: isInPosition
+                            ? Colors.greenAccent
+                            : Colors.redAccent,
+                        blurRadius: 1.5,
+                        spreadRadius: 0.0,
+                        offset: const Offset(
+                          0.0,
+                          0.0,
+                        ),
+                      ),
+                    ]),
                 width: tileSize,
                 height: tileSize,
                 child: RiveAnimationWidget(

@@ -1,5 +1,5 @@
-import 'package:hackathon_slide_puzzle/interfaces/position.dart';
-import 'package:hackathon_slide_puzzle/interfaces/tile.dart';
+import 'package:sliding_scene/interfaces/position.dart';
+import 'package:sliding_scene/interfaces/tile.dart';
 
 typedef Puzzle = List<Tile>;
 
