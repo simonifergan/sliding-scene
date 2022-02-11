@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 
-typedef AnimationGroups = List<List<int>>;
+typedef AnimationGroup = List<int>;
+
+typedef AnimationGroups = List<AnimationGroup>;
 
 class PuzzleMetadata extends Equatable {
   const PuzzleMetadata({required this.animationGroups});

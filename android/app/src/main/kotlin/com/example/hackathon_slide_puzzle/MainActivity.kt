@@ -1,4 +1,4 @@
-package com.example.hackathon_slide_puzzle
+package com.example.sliding_scene
 
 import io.flutter.embedding.android.FlutterActivity
 

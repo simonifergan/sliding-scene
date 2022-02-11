@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import 'package:sliding_scene/app/puzzles/windmill.dart';
-import 'package:sliding_scene/app/views/puzzle_view.dart';
+import 'package:sliding_scene/app/routes/route.dart' as route;
 import 'package:sliding_scene/reducers/puzzle_reducer.dart';
 import 'package:sliding_scene/services/puzzle_service.dart';
 import 'package:sliding_scene/states/puzzle_state.dart';
 
 import 'package:redux/redux.dart';
+import 'package:sliding_scene/utils/responsive_tile_size.dart' as tile_size;
 
 class App extends StatelessWidget {
   App({Key? key}) : super(key: key);
@@ -16,7 +17,8 @@ class App extends StatelessWidget {
       initialState: PuzzleState(
           tiles: puzzleService.init(size: 4),
           correctTiles: [],
-          metadata: windmillPuzzle()));
+          metadata: windmillPuzzle(),
+          tileSize: tile_size.large));
 
   // This widget is the root of your application.
   @override
@@ -25,11 +27,9 @@ class App extends StatelessWidget {
         store: store,
         child: MaterialApp(
           title: 'Sliding Scene',
-          theme: ThemeData(
-              primarySwatch: Colors.blue,
-              backgroundColor: const Color(0xFF2b3058)),
-          home:
-              const PuzzleView(key: Key("puzzle-view"), title: 'Sliding Scene'),
+          theme: ThemeData(),
+          onGenerateRoute: route.controller,
+          initialRoute: route.puzzleRoute,
         ));
   }
 }

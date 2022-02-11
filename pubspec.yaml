@@ -36,7 +36,8 @@ flutter:
 
   assets:
     - rive/
-    - sounds/
+    - sounds/music/purple_cat-crescent_moon.mp3
+    - sounds/effects/slide.wav
  
 
   # An image asset can refer to one or more resolution-specific "variants", see

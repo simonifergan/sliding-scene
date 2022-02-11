@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:sliding_scene/interfaces/metadata.dart';
 
 import 'package:sliding_scene/interfaces/tile.dart';
 import 'package:sliding_scene/states/puzzle_state.dart';
@@ -34,9 +35,17 @@ class _RiveAnimationWidgetState extends State<RiveAnimationWidget> {
     final state = (StoreProvider.of<PuzzleState>(context).state);
     final correctTiles = state.correctTiles;
     final metadata = state.metadata;
+    final animationGroups = metadata.animationGroups;
+    final AnimationGroups tileAnimationGroups = [];
 
     final isInPosition = tile.currentPosition.compareTo(tile.position) == 0;
-    final isGroupAligned = metadata.animationGroups
+    for (var i = 0; i < animationGroups.length; i++) {
+      if (animationGroups[i].contains(tile.number)) {
+        tileAnimationGroups.add(animationGroups[i]);
+      }
+    }
+
+    final isGroupAligned = tileAnimationGroups
         .any((group) => group.every((index) => correctTiles.contains(index)));
 
     return isInPosition && isGroupAligned;

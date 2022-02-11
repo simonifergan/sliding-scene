@@ -1,4 +1,3 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -15,33 +14,31 @@ class Board extends StatelessWidget {
         ? const SizedBox()
         : TileWidget(
             tile: tile,
-            key: Key("tile-my-${tile.number}"),
+            key: Key("tile-rendered-${tile.number}"),
           );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-          boxShadow: [
+    return StoreConnector<PuzzleState, PuzzleState>(
+      converter: (store) => store.state,
+      builder: (context, PuzzleState state) => Container(
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(boxShadow: [
             BoxShadow(
                 color: Colors.black.withOpacity(0.05),
-                blurRadius: 0.5,
-                spreadRadius: 3)
-          ],
-          borderRadius: BorderRadius.circular(10),
-          color: const Color(0xFF3c4274)),
-      constraints:
-          const BoxConstraints(maxWidth: tileSize * 5, maxHeight: tileSize * 5),
-      child: StoreConnector<PuzzleState, Puzzle>(
-          converter: (store) => store.state.tiles,
-          builder: (context, Puzzle tiles) => Stack(
-                fit: StackFit.loose,
-                key: const Key("board"),
-                clipBehavior: Clip.none,
-                children: tiles.map(renderTile).toList(),
-              )),
+                blurRadius: 1,
+                spreadRadius: 2,
+                blurStyle: BlurStyle.outer)
+          ], borderRadius: BorderRadius.circular(10), color: Colors.white),
+          constraints: BoxConstraints(
+              maxWidth: state.tileSize * 5, maxHeight: state.tileSize * 5),
+          child: Stack(
+            fit: StackFit.loose,
+            key: const Key("board"),
+            clipBehavior: Clip.none,
+            children: state.tiles.map(renderTile).toList(),
+          )),
     );
   }
 }
