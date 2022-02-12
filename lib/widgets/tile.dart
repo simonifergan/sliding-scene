@@ -15,7 +15,7 @@ class TileWidget extends StatefulWidget {
 
 class _TileWidgetState extends State<TileWidget> {
   double calculateAlignment(int valueOnAxis) {
-    final gap = valueOnAxis != 0 ? valueOnAxis / 320 : 0;
+    final gap = valueOnAxis != 0 ? valueOnAxis / 100 : 0;
     final initialPosition = ((valueOnAxis + 0.5) / 4);
     return initialPosition + gap;
   }
@@ -48,14 +48,14 @@ class _TileWidgetState extends State<TileWidget> {
                   clipBehavior: Clip.antiAlias,
                   curve: Curves.easeInOut,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(10),
                       boxShadow: [
                         BoxShadow(
                           color: isInPosition
                               ? const Color(0xFFFAFF73)
                               : const Color(0xFFDB6F6B),
-                          blurRadius: 1.5,
-                          spreadRadius: 1.0,
+                          blurRadius: .5,
+                          spreadRadius: .5,
                           offset: Offset.zero,
                         ),
                       ]),

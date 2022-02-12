@@ -13,11 +13,8 @@ class PuzzleState {
     this.size = 4,
     this.gameStatus = GameStatus.notPlaying,
     this.moves = 0,
-    startTime,
-    this.duration,
-  }) {
-    this.startTime = startTime ?? DateTime.now();
-  }
+    this.startTime,
+  });
 
   Puzzle tiles = [];
   int size;
@@ -27,5 +24,4 @@ class PuzzleState {
   double tileSize;
   int moves;
   DateTime? startTime;
-  Duration? duration;
 }

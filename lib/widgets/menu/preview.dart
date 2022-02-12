@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class RiveFullscreen extends StatelessWidget {
-  const RiveFullscreen({Key? key}) : super(key: key);
+class Preview extends StatelessWidget {
+  const Preview({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

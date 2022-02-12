@@ -7,8 +7,8 @@ import 'package:sliding_scene/services/puzzle_service.dart';
 import 'package:sliding_scene/states/puzzle_state.dart';
 import 'package:sliding_scene/widgets/hero_dialog.dart';
 import 'package:sliding_scene/widgets/music_player.dart';
-import 'package:sliding_scene/widgets/rive_fullscreen.dart';
-import 'package:sliding_scene/widgets/timer.dart';
+import 'package:sliding_scene/widgets/menu/preview.dart';
+import 'package:sliding_scene/widgets/session_timer.dart';
 
 class _ViewModel {
   _ViewModel(
@@ -37,10 +37,10 @@ class _MenuState extends State<Menu> {
   late OverlayEntry _overlayEntry;
 
   void handleDoneShuffling(dynamic store) {
-    store.dispatch(PuzzleAction(
-        type: PuzzleActions.setGameStatus, payload: GameStatus.playing));
     setState(() {
       _shuffles = 0;
+      store.dispatch(PuzzleAction(
+          type: PuzzleActions.setGameStatus, payload: GameStatus.playing));
     });
   }
 
@@ -88,19 +88,20 @@ class _MenuState extends State<Menu> {
                       Text(
                         3 - _shuffles != 0 ? "${3 - _shuffles}" : "Go!",
                         style: TextStyle(
-                            fontFamily: "MaShanZheng",
-                            fontSize: 58,
+                            fontStyle: FontStyle.italic,
+                            fontSize: 80,
                             foreground: Paint()
                               ..style = PaintingStyle.stroke
-                              ..strokeWidth = 2
+                              ..strokeWidth = 6
                               ..color = Colors.black),
                       ),
                       Text(
                         3 - _shuffles != 0 ? "${3 - _shuffles}" : "Go!",
                         style: const TextStyle(
-                          color: Color(0xFF2eb398),
-                          fontFamily: "MaShanZheng",
-                          fontSize: 58,
+                          // color: Color(0xFF2eb398),
+                          color: Color(0xFFDB6F6B),
+                          fontStyle: FontStyle.italic,
+                          fontSize: 80,
                         ),
                       ),
                     ],
@@ -139,16 +140,17 @@ class _MenuState extends State<Menu> {
           margin: const EdgeInsets.symmetric(vertical: 5),
           width: viewModel.tileSize * 5,
           height: 60,
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
-                    blurRadius: 0.5,
-                    spreadRadius: 3)
-              ],
-              borderRadius: BorderRadius.circular(10),
-              color: const Color(0xFF454545)),
+          // clipBehavior: Clip.antiAlias,
+          // decoration: BoxDecoration(
+          //     boxShadow: [
+          //       BoxShadow(
+          //           color: Colors.black.withOpacity(0.05),
+          //           blurRadius: 0.5,
+          //           spreadRadius: 3)
+          //     ],
+          //     borderRadius: BorderRadius.circular(10),
+          //     // color: const Color(0xFF454545)
+          //     color: const Color(0xFF7a7a7a)),
           child: Padding(
             padding: const EdgeInsets.only(left: 5),
             child: Row(
@@ -160,12 +162,19 @@ class _MenuState extends State<Menu> {
                     Row(
                       children: [
                         Text(viewModel.moves.toString()),
-                        viewModel.gameStatus == GameStatus.playing &&
-                                viewModel.startTime != null
-                            ? const GameSessionTimer()
-                            : const SizedBox(),
                       ],
                     ),
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    viewModel.gameStatus == GameStatus.playing &&
+                            viewModel.startTime != null
+                        ? SessionTimer(
+                            startTime: viewModel.startTime,
+                          )
+                        : const SizedBox(),
                   ],
                 ),
                 Column(
@@ -179,7 +188,7 @@ class _MenuState extends State<Menu> {
                             onTap: () {
                               Navigator.of(context).push(HeroDialog(
                                 builder: (context) => const Center(
-                                  child: RiveFullscreen(
+                                  child: Preview(
                                     key: Key("rive-fullscreen"),
                                   ),
                                 ),
@@ -199,15 +208,18 @@ class _MenuState extends State<Menu> {
                               width: 100,
                               padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Color(0xFF0b1b28), width: 1),
                                   borderRadius: BorderRadius.circular(50),
-                                  color: const Color(0xFF2eb398)),
+                                  color: const Color(0xFFDB6F6B)),
                               child: Center(
                                 child: Text(
                                   viewModel.gameStatus != GameStatus.playing
                                       ? "Start"
                                       : "Restart",
                                   style: const TextStyle(
-                                      fontFamily: "MaShanZheng", fontSize: 24),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),

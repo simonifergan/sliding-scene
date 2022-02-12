@@ -57,4 +57,12 @@ flutter:
       fonts:
         - asset: fonts/MaShanZheng-Regular.ttf
           weight: 400
+    - family: Montserrat
+      fonts:
+        - asset: fonts/Montserrat-Regular.ttf
+        - asset: fonts/Montserrat-Bold.ttf
+          weight: 700
+        - asset: fonts/Montserrat-Italic.ttf
+          style: italic
+
 

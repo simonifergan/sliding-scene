@@ -37,7 +37,9 @@ class _AppState extends State<App> {
         store: store,
         child: MaterialApp(
           title: 'Sliding Scene',
-          theme: ThemeData(),
+          theme: ThemeData(
+            fontFamily: "Montserrat",
+          ),
           onGenerateRoute: route.controller,
           initialRoute: route.puzzleRoute,
         ));
