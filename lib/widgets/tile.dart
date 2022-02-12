@@ -1,3 +1,4 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:sliding_scene/interfaces/tile.dart';
@@ -14,6 +15,8 @@ class TileWidget extends StatefulWidget {
 }
 
 class _TileWidgetState extends State<TileWidget> {
+  late AssetsAudioPlayer moveTileSound;
+
   double calculateAlignment(int valueOnAxis) {
     final gap = valueOnAxis != 0 ? valueOnAxis / 100 : 0;
     final initialPosition = ((valueOnAxis + 0.5) / 4);
@@ -21,9 +24,16 @@ class _TileWidgetState extends State<TileWidget> {
   }
 
   @override
+  void initState() {
+    moveTileSound = AssetsAudioPlayer.withId("slide-sound-effect");
+    moveTileSound.open(Audio.file("assets/sounds/effects/slide.wav"),
+        autoStart: false, loopMode: LoopMode.none);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final tile = widget.tile;
-    final isInPosition = tile.position.compareTo(tile.currentPosition) == 0;
 
     final tileSize = StoreProvider.of<PuzzleState>(context).state.tileSize;
     final gameStatus = StoreProvider.of<PuzzleState>(context).state.gameStatus;
@@ -36,6 +46,7 @@ class _TileWidgetState extends State<TileWidget> {
           cursor: SystemMouseCursors.click,
           child: GestureDetector(
               onTap: () {
+                moveTileSound.play();
                 if (gameStatus != GameStatus.playing) {
                   return;
                 }
@@ -48,17 +59,8 @@ class _TileWidgetState extends State<TileWidget> {
                   clipBehavior: Clip.antiAlias,
                   curve: Curves.easeInOut,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: isInPosition
-                              ? const Color(0xFFFAFF73)
-                              : const Color(0xFFDB6F6B),
-                          blurRadius: .5,
-                          spreadRadius: .5,
-                          offset: Offset.zero,
-                        ),
-                      ]),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   width: tileSize,
                   height: tileSize,
                   child: RiveAnimationWidget(

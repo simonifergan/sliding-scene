@@ -8,7 +8,7 @@ import 'package:sliding_scene/states/puzzle_state.dart';
 import 'package:sliding_scene/widgets/hero_dialog.dart';
 import 'package:sliding_scene/widgets/music_player.dart';
 import 'package:sliding_scene/widgets/menu/preview.dart';
-import 'package:sliding_scene/widgets/session_timer.dart';
+import 'package:sliding_scene/widgets/menu/session_timer.dart';
 
 class _ViewModel {
   _ViewModel(
@@ -39,15 +39,17 @@ class _MenuState extends State<Menu> {
   void handleDoneShuffling(dynamic store) {
     setState(() {
       _shuffles = 0;
-      store.dispatch(PuzzleAction(
-          type: PuzzleActions.setGameStatus, payload: GameStatus.playing));
     });
   }
 
   void handleShuffling(dynamic store) async {
     if (_shuffles >= 3) {
       hideOverlayEntry();
-      handleDoneShuffling(store);
+      setState(() {
+        _shuffles = 0;
+      });
+      store.dispatch(PuzzleAction(
+          type: PuzzleActions.setGameStatus, payload: GameStatus.playing));
       return;
     }
 
@@ -209,7 +211,7 @@ class _MenuState extends State<Menu> {
                               padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                   border: Border.all(
-                                      color: Color(0xFF0b1b28), width: 1),
+                                      color: const Color(0xFF0b1b28), width: 1),
                                   borderRadius: BorderRadius.circular(50),
                                   color: const Color(0xFFDB6F6B)),
                               child: Center(

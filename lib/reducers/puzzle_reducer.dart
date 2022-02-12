@@ -37,7 +37,7 @@ PuzzleState puzzleReducer(PuzzleState state, dynamic action) {
           correctTiles: [],
           metadata: state.metadata,
           tileSize: state.tileSize,
-          gameStatus: state.gameStatus);
+          gameStatus: GameStatus.shuffling);
 
     case PuzzleActions.setGameStatus:
       return PuzzleState(
