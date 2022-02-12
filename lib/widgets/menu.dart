@@ -5,7 +5,9 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:sliding_scene/reducers/puzzle_reducer.dart';
 import 'package:sliding_scene/services/puzzle_service.dart';
 import 'package:sliding_scene/states/puzzle_state.dart';
+import 'package:sliding_scene/widgets/hero_dialog.dart';
 import 'package:sliding_scene/widgets/music_player.dart';
+import 'package:sliding_scene/widgets/rive_fullscreen.dart';
 import 'package:sliding_scene/widgets/timer.dart';
 
 class _ViewModel {
@@ -13,12 +15,14 @@ class _ViewModel {
       {required this.gameStatus,
       required this.onTapShuffle,
       required this.moves,
-      required this.tileSize});
+      required this.tileSize,
+      required this.startTime});
 
   final GameStatus gameStatus;
   final void Function() onTapShuffle;
   final int moves;
   final double tileSize;
+  DateTime? startTime;
 }
 
 class Menu extends StatefulWidget {
@@ -121,6 +125,7 @@ class _MenuState extends State<Menu> {
           gameStatus: store.state.gameStatus,
           moves: store.state.moves,
           tileSize: store.state.tileSize,
+          startTime: store.state.startTime,
           onTapShuffle: () {
             store.dispatch(PuzzleAction(
                 type: PuzzleActions.setGameStatus,
@@ -131,6 +136,7 @@ class _MenuState extends State<Menu> {
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(4),
         child: Container(
+          margin: const EdgeInsets.symmetric(vertical: 5),
           width: viewModel.tileSize * 5,
           height: 60,
           clipBehavior: Clip.antiAlias,
@@ -154,7 +160,10 @@ class _MenuState extends State<Menu> {
                     Row(
                       children: [
                         Text(viewModel.moves.toString()),
-                        const GameSessionTimer(),
+                        viewModel.gameStatus == GameStatus.playing &&
+                                viewModel.startTime != null
+                            ? const GameSessionTimer()
+                            : const SizedBox(),
                       ],
                     ),
                   ],
@@ -166,6 +175,20 @@ class _MenuState extends State<Menu> {
                       padding: const EdgeInsets.only(right: 5),
                       child: Row(
                         children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(HeroDialog(
+                                builder: (context) => const Center(
+                                  child: RiveFullscreen(
+                                    key: Key("rive-fullscreen"),
+                                  ),
+                                ),
+                              ));
+                            },
+                            child: const Hero(
+                                tag: "peak",
+                                child: Icon(Icons.photo_library_outlined)),
+                          ),
                           const MusicPlayerWidget(),
                           InkWell(
                             onTap: () {

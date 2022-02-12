@@ -1,14 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:rive/rive.dart';
 
 class RiveFullscreen extends StatelessWidget {
   const RiveFullscreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const RiveAnimation.file(
-      "rive/windmill.riv",
-      fit: BoxFit.cover,
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Hero(
+              tag: "peak",
+              child: LayoutBuilder(
+                builder: (context, constraints) => Container(
+                    width: constraints.maxWidth / 2,
+                    height: constraints.maxHeight / 2,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Image.asset(
+                      "images/windmill_preview.png",
+                      fit: BoxFit.contain,
+                    )),
+              ))),
     );
   }
 }

@@ -35,6 +35,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - images/
     - rive/
     - sounds/music/purple_cat-crescent_moon.mp3
     - sounds/effects/slide.wav

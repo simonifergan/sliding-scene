@@ -24,6 +24,7 @@ PuzzleState puzzleReducer(PuzzleState state, dynamic action) {
             size: state.size,
             tiles: tiles,
             correctTiles: puzzleService.getCorrectTiles(tiles),
+            startTime: state.startTime,
             metadata: state.metadata,
             tileSize: state.tileSize,
             gameStatus: state.gameStatus,

@@ -14,6 +14,7 @@ class PuzzleState {
     this.gameStatus = GameStatus.notPlaying,
     this.moves = 0,
     startTime,
+    this.duration,
   }) {
     this.startTime = startTime ?? DateTime.now();
   }
@@ -25,5 +26,6 @@ class PuzzleState {
   PuzzleMetadata metadata;
   double tileSize;
   int moves;
-  DateTime startTime = DateTime.now();
+  DateTime? startTime;
+  Duration? duration;
 }

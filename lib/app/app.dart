@@ -10,9 +10,14 @@ import 'package:sliding_scene/states/puzzle_state.dart';
 import 'package:redux/redux.dart';
 import 'package:sliding_scene/utils/responsive_tile_size.dart' as tile_size;
 
-class App extends StatelessWidget {
-  App({Key? key}) : super(key: key);
+class App extends StatefulWidget {
+  const App({Key? key}) : super(key: key);
 
+  @override
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> {
   final store = Store<PuzzleState>(puzzleReducer,
       initialState: PuzzleState(
           tiles: puzzleService.init(size: 4),
@@ -20,7 +25,12 @@ class App extends StatelessWidget {
           metadata: windmillPuzzle(),
           tileSize: tile_size.large));
 
-  // This widget is the root of your application.
+  @override
+  void initState() {
+    precacheImage(Image.asset("images/windmill_preview.png").image, context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return StoreProvider<PuzzleState>(

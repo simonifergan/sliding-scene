@@ -17,10 +17,7 @@ class PuzzleView extends StatelessWidget {
       return Container(
         color: const Color(0xFF323232),
         child: Column(children: const [
-          Menu(),
-          SizedBox(
-            height: 5,
-          ),
+          SafeArea(child: Menu()),
           Board(),
         ]),
       );

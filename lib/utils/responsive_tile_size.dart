@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 
-const small = 60.0;
-const medium = 100.0;
-const large = 120.0;
+const xsmall = 60.0;
+const small = 80.0;
+const medium = 120.0;
+const large = 140.0;
 const xlarge = 160.0;
 const xxlarge = 180.0;
 
 double getTileSize(BoxConstraints constraints) {
   double tileSize;
 
-  if (constraints.maxWidth < 600) {
+  if (constraints.maxWidth < 400) {
+    tileSize = xsmall;
+  } else if (constraints.maxWidth < 600) {
     tileSize = small;
   } else if (constraints.maxWidth < 825) {
     tileSize = medium;
