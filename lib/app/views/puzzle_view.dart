@@ -15,26 +15,15 @@ class PuzzleView extends StatelessWidget {
           PuzzleAction(type: PuzzleActions.setTileSize, payload: constraints));
 
       return Container(
-          color: Colors.grey[200],
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Menu(key: Key("menu")),
-                ],
-              ),
-              Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Board(),
-                  ]),
-              Column(
-                children: const [],
-              ),
-            ],
-          ));
+        color: const Color(0xFF323232),
+        child: Column(children: const [
+          Menu(),
+          SizedBox(
+            height: 5,
+          ),
+          Board(),
+        ]),
+      );
     });
   }
 }

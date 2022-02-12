@@ -17,7 +17,8 @@ class _MusicPlayerWidgetState extends State<MusicPlayerWidget> {
     musicPlayer = AssetsAudioPlayer.withId("music-player-widget");
     musicPlayer.open(
         Audio.file("assets/sounds/music/purple_cat-crescent_moon.mp3"),
-        autoStart: false);
+        autoStart: false,
+        loopMode: LoopMode.single);
     super.initState();
   }
 

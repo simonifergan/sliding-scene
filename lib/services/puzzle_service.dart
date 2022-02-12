@@ -61,6 +61,12 @@ class PuzzleService {
     return (measure / puzzleSize) * x.toDouble();
   }
 
+  bool isTileBlocked(Puzzle tiles, Tile currentTile) {
+    final whitespaceTile = _getWhitespaceTile(tiles);
+    return (whitespaceTile.currentPosition.x != currentTile.currentPosition.x &&
+        whitespaceTile.currentPosition.y != currentTile.currentPosition.y);
+  }
+
   Puzzle sortTiles(Puzzle tiles) {
     return tiles.toList()
       ..sort((Tile tileA, Tile tileB) =>
@@ -68,7 +74,6 @@ class PuzzleService {
   }
 
   Tile _getWhitespaceTile(Puzzle tiles) {
-    // WHY YOU LOOK AT MY CODE?
     return tiles.singleWhere((tile) => tile.isWhitespace);
   }
 
@@ -98,13 +103,11 @@ class PuzzleService {
       return tiles;
     }
 
-    final whitespaceTile = _getWhitespaceTile(tiles);
-
-    // Not in row or column
-    if (whitespaceTile.currentPosition.x != currentTile.currentPosition.x &&
-        whitespaceTile.currentPosition.y != currentTile.currentPosition.y) {
+    if (isTileBlocked(tiles, currentTile)) {
       return tiles;
     }
+
+    final whitespaceTile = _getWhitespaceTile(tiles);
 
     final deltaX =
         whitespaceTile.currentPosition.x - currentTile.currentPosition.x;
@@ -140,20 +143,12 @@ class PuzzleService {
   }
 
   Puzzle shuffle(Puzzle tiles) {
-    final List<Position> availablePosition = [];
-    for (var tile in tiles) {
-      if (tile.isWhitespace) {
-        continue;
-      }
+    final List<Position> availablePosition =
+        List.generate(tiles.length, (index) => tiles[index].position);
 
-      availablePosition.add(tile.position);
-    }
     availablePosition.shuffle();
     final shuffledTiles = List.generate(tiles.length, (index) {
       final currentTile = tiles[index];
-      if (currentTile.isWhitespace) {
-        return currentTile.clone(nextPosition: currentTile.position);
-      }
 
       return currentTile.clone(nextPosition: availablePosition.removeAt(0));
     });
