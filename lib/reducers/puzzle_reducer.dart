@@ -24,20 +24,22 @@ PuzzleState puzzleReducer(PuzzleState state, dynamic action) {
             size: state.size,
             tiles: tiles,
             correctTiles: puzzleService.getCorrectTiles(tiles),
-            startTime: state.startTime,
+            secondsElpased: state.secondsElpased,
             metadata: state.metadata,
             tileSize: state.tileSize,
             gameStatus: state.gameStatus,
             moves: state.moves + 1);
       }
     case PuzzleActions.shuffleBoard:
+      final shuffledTiles = puzzleService.shuffle(state.tiles);
       return PuzzleState(
           size: state.size,
-          tiles: puzzleService.shuffle(state.tiles),
-          correctTiles: [],
+          tiles: shuffledTiles,
+          correctTiles: puzzleService.getCorrectTiles(shuffledTiles),
           metadata: state.metadata,
           tileSize: state.tileSize,
-          gameStatus: GameStatus.shuffling);
+          gameStatus: GameStatus.shuffling,
+          secondsElpased: state.secondsElpased);
 
     case PuzzleActions.setGameStatus:
       return PuzzleState(
@@ -47,9 +49,9 @@ PuzzleState puzzleReducer(PuzzleState state, dynamic action) {
           metadata: state.metadata,
           gameStatus: action.payload,
           tileSize: state.tileSize,
-          startTime: action.payload == GameStatus.playing
-              ? DateTime.now()
-              : state.startTime);
+          secondsElpased: action.payload == GameStatus.playing
+              ? const Duration(seconds: 0)
+              : state.secondsElpased);
 
     case PuzzleActions.setTileSize:
       return PuzzleState(
@@ -58,7 +60,9 @@ PuzzleState puzzleReducer(PuzzleState state, dynamic action) {
           correctTiles: state.correctTiles,
           metadata: state.metadata,
           gameStatus: state.gameStatus,
-          tileSize: getTileSize(action.payload));
+          tileSize: getTileSize(action.payload),
+          moves: state.moves,
+          secondsElpased: state.secondsElpased);
     default:
       return state;
   }

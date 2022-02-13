@@ -16,13 +16,13 @@ class _ViewModel {
       required this.onTapShuffle,
       required this.moves,
       required this.tileSize,
-      required this.startTime});
+      required this.secondsElpased});
 
   final GameStatus gameStatus;
   final void Function() onTapShuffle;
   final int moves;
   final double tileSize;
-  DateTime? startTime;
+  Duration? secondsElpased;
 }
 
 class Menu extends StatefulWidget {
@@ -36,20 +36,13 @@ class _MenuState extends State<Menu> {
   late int _shuffles;
   late OverlayEntry _overlayEntry;
 
-  void handleDoneShuffling(dynamic store) {
-    setState(() {
-      _shuffles = 0;
-    });
-  }
-
-  void handleShuffling(dynamic store) async {
+  Future<void> handleShuffling(dynamic store) async {
     if (_shuffles >= 3) {
       hideOverlayEntry();
       setState(() {
         _shuffles = 0;
       });
-      store.dispatch(PuzzleAction(
-          type: PuzzleActions.setGameStatus, payload: GameStatus.playing));
+
       return;
     }
 
@@ -66,9 +59,8 @@ class _MenuState extends State<Menu> {
     store.dispatch(
         PuzzleAction(type: PuzzleActions.shuffleBoard, payload: null));
 
-    Timer(const Duration(seconds: 1), () {
-      handleShuffling(store);
-    });
+    return Future.delayed(
+        const Duration(seconds: 1), () => handleShuffling.call(store));
   }
 
   @override
@@ -91,7 +83,7 @@ class _MenuState extends State<Menu> {
                         3 - _shuffles != 0 ? "${3 - _shuffles}" : "Go!",
                         style: TextStyle(
                             fontStyle: FontStyle.italic,
-                            fontSize: 80,
+                            fontSize: 100,
                             foreground: Paint()
                               ..style = PaintingStyle.stroke
                               ..strokeWidth = 6
@@ -100,10 +92,9 @@ class _MenuState extends State<Menu> {
                       Text(
                         3 - _shuffles != 0 ? "${3 - _shuffles}" : "Go!",
                         style: const TextStyle(
-                          // color: Color(0xFF2eb398),
-                          color: Color(0xFFDB6F6B),
+                          color: Color(0xFFFAFF73),
                           fontStyle: FontStyle.italic,
-                          fontSize: 80,
+                          fontSize: 100,
                         ),
                       ),
                     ],
@@ -128,12 +119,12 @@ class _MenuState extends State<Menu> {
           gameStatus: store.state.gameStatus,
           moves: store.state.moves,
           tileSize: store.state.tileSize,
-          startTime: store.state.startTime,
-          onTapShuffle: () {
+          secondsElpased: store.state.secondsElpased,
+          onTapShuffle: () async {
+            await handleShuffling(store);
             store.dispatch(PuzzleAction(
                 type: PuzzleActions.setGameStatus,
-                payload: GameStatus.shuffling));
-            handleShuffling(store);
+                payload: GameStatus.playing));
           }),
       builder: (_context, viewModel) => Material(
         color: Colors.transparent,
@@ -141,18 +132,6 @@ class _MenuState extends State<Menu> {
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 5),
           width: viewModel.tileSize * 5,
-          height: 60,
-          // clipBehavior: Clip.antiAlias,
-          // decoration: BoxDecoration(
-          //     boxShadow: [
-          //       BoxShadow(
-          //           color: Colors.black.withOpacity(0.05),
-          //           blurRadius: 0.5,
-          //           spreadRadius: 3)
-          //     ],
-          //     borderRadius: BorderRadius.circular(10),
-          //     // color: const Color(0xFF454545)
-          //     color: const Color(0xFF7a7a7a)),
           child: Padding(
             padding: const EdgeInsets.only(left: 5),
             child: Row(
@@ -172,9 +151,9 @@ class _MenuState extends State<Menu> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     viewModel.gameStatus == GameStatus.playing &&
-                            viewModel.startTime != null
+                            viewModel.secondsElpased != null
                         ? SessionTimer(
-                            startTime: viewModel.startTime,
+                            secondsElpased: viewModel.secondsElpased!,
                           )
                         : const SizedBox(),
                   ],

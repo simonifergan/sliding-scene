@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:sliding_scene/interfaces/position.dart';
 import 'package:sliding_scene/interfaces/tile.dart';
 
@@ -20,35 +22,57 @@ class PuzzleService {
         number++;
       }
     }
+
     return tiles;
   }
 
-  bool _isInversion(Tile tileA, Tile tileB) {
-    if (!tileB.isWhitespace && tileA.number != tileB.number) {
-      if (tileB.number < tileA.number) {
-        return tileB.currentPosition.compareTo(tileA.currentPosition) > 0;
+  int countInversions(tiles) {
+    var count = 0;
+    for (var a = 0; a < tiles.length; a++) {
+      final tileA = tiles[a];
+      if (tileA.isWhitespace) {
+        continue;
+      }
+
+      for (var b = a + 1; b < tiles.length; b++) {
+        final tileB = tiles[b];
+        if (_isInversion(tileA, tileB)) {
+          count++;
+        }
+      }
+    }
+    return count;
+  }
+
+  /// Determines if the two tiles are inverted.
+  bool _isInversion(Tile a, Tile b) {
+    if (!b.isWhitespace && a.number != b.number) {
+      if (b.number < a.number) {
+        return b.currentPosition.compareTo(a.currentPosition) > 0;
       } else {
-        return tileA.currentPosition.compareTo(tileB.currentPosition) > 0;
+        return a.currentPosition.compareTo(b.currentPosition) > 0;
       }
     }
     return false;
   }
 
   bool isSolvable(Puzzle tiles) {
-    int inversions = 0;
-    for (var i = 0; i < tiles.length; i++) {
-      final tileA = tiles[i];
-      if (tileA.isWhitespace) {
-        continue;
-      }
+    final size = sqrt(tiles.length).toInt();
+    final height = tiles.length ~/ size;
 
-      for (var j = i + 1; j < tiles.length; j++) {
-        final tileB = tiles[j];
-        inversions += _isInversion(tileA, tileB) ? 1 : 0;
-      }
+    final inversions = countInversions(tiles);
+
+    if (size.isOdd) {
+      return inversions.isEven;
     }
 
-    return inversions.isEven;
+    final whitespaceRow =
+        tiles.singleWhere((tile) => tile.isWhitespace).currentPosition.y;
+
+    if (((height - whitespaceRow) + 1).isOdd) {
+      return inversions.isEven;
+    }
+    return inversions.isOdd;
   }
 
   GameStatus getGameStatus(Puzzle tiles, List<int> correctTiles) {
@@ -130,10 +154,6 @@ class PuzzleService {
   List<int> getCorrectTiles(Puzzle tiles) {
     final List<int> correctTiles = [];
     for (var tile in tiles) {
-      if (tile.isWhitespace) {
-        continue;
-      }
-
       if (tile.currentPosition.compareTo(tile.position) == 0) {
         correctTiles.add(tile.number);
       }
@@ -143,19 +163,20 @@ class PuzzleService {
   }
 
   Puzzle shuffle(Puzzle tiles) {
-    final List<Position> availablePosition =
-        List.generate(tiles.length, (index) => tiles[index].position);
+    Puzzle shuffledTiles = [];
+    do {
+      final List<Position> availablePosition =
+          List.generate(tiles.length, (index) => tiles[index].position);
+      availablePosition.shuffle();
+      shuffledTiles = List.generate(tiles.length, (index) {
+        final currentTile = tiles[index];
 
-    availablePosition.shuffle();
-    final shuffledTiles = List.generate(tiles.length, (index) {
-      final currentTile = tiles[index];
+        return currentTile.clone(nextPosition: availablePosition.removeAt(0));
+      });
+    } while (
+        !isSolvable(shuffledTiles) && getCorrectTiles(shuffledTiles).isEmpty);
 
-      return currentTile.clone(nextPosition: availablePosition.removeAt(0));
-    });
-
-    final shouldReShuffle = !isSolvable(shuffledTiles);
-
-    return shouldReShuffle ? shuffle(shuffledTiles) : shuffledTiles;
+    return shuffledTiles;
   }
 }
 

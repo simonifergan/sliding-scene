@@ -8,7 +8,7 @@ import 'package:sliding_scene/services/puzzle_service.dart';
 import 'package:sliding_scene/states/puzzle_state.dart';
 
 import 'package:redux/redux.dart';
-import 'package:sliding_scene/utils/responsive_tile_size.dart' as tile_size;
+import 'package:sliding_scene/utils/responsive_tile_size.dart';
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
@@ -23,7 +23,7 @@ class _AppState extends State<App> {
           tiles: puzzleService.init(size: 4),
           correctTiles: [],
           metadata: windmillPuzzle(),
-          tileSize: tile_size.large));
+          tileSize: ResponseTileSize.xxlarge));
 
   @override
   void initState() {

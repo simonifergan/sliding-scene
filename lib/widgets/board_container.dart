@@ -2,22 +2,21 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:sliding_scene/reducers/puzzle_reducer.dart';
 import 'package:sliding_scene/services/puzzle_service.dart';
 import 'package:sliding_scene/states/puzzle_state.dart';
 import 'package:sliding_scene/widgets/board.dart';
 import 'package:sliding_scene/widgets/menu/menu.dart';
 
-class PuzzleView extends StatefulWidget {
-  const PuzzleView({Key? key}) : super(key: key);
+class BoardContainer extends StatefulWidget {
+  const BoardContainer({Key? key}) : super(key: key);
 
   @override
-  State<PuzzleView> createState() => _PuzzleViewState();
+  State<BoardContainer> createState() => _BoardContainerState();
 }
 
-class _PuzzleViewState extends State<PuzzleView> {
+class _BoardContainerState extends State<BoardContainer> {
   List<double> fromStops = [0.10, 0.90];
-  List<double> toStops = [0.30, 0.70];
+  List<double> toStops = [0.30, 0.80];
   bool isReversed = false;
   late Timer animationTicker;
   @override
@@ -47,27 +46,28 @@ class _PuzzleViewState extends State<PuzzleView> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      StoreProvider.of<PuzzleState>(context).dispatch(
-          PuzzleAction(type: PuzzleActions.setTileSize, payload: constraints));
-
-      return AnimatedContainer(
-        duration: const Duration(seconds: 1),
-        decoration: BoxDecoration(
-            gradient: RadialGradient(
-          center: const Alignment(0, 0),
-          stops: isReversed ? fromStops : toStops,
-          radius: 1.0,
-          colors: const [
-            Color(0xFFd86f6b),
-            Color(0xFF0b1b28),
-          ],
+    return AnimatedContainer(
+      key: const Key("puzzle-game-animated-container"),
+      duration: const Duration(seconds: 1),
+      decoration: BoxDecoration(
+          gradient: RadialGradient(
+        center: const Alignment(0, 0),
+        stops: isReversed ? fromStops : toStops,
+        radius: 1.0,
+        colors: const [
+          Color(0xFFd86f6b),
+          Color(0xFF0b1b28),
+        ],
+      )),
+      child: Column(children: const [
+        SafeArea(
+            child: Menu(
+          key: Key("game-menu"),
         )),
-        child: Column(children: const [
-          SafeArea(child: Menu()),
-          Board(),
-        ]),
-      );
-    });
+        Board(
+          key: Key("board"),
+        ),
+      ]),
+    );
   }
 }

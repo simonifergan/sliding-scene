@@ -46,18 +46,16 @@ class _TileWidgetState extends State<TileWidget> {
           cursor: SystemMouseCursors.click,
           child: GestureDetector(
               onTap: () {
-                moveTileSound.play();
+                // moveTileSound.play();
                 if (gameStatus != GameStatus.playing) {
                   return;
                 }
                 StoreProvider.of<PuzzleState>(context).dispatch(
                     PuzzleAction(type: PuzzleActions.moveTile, payload: tile));
               },
-              child: AnimatedContainer(
+              child: Container(
                   key: Key("tile-animated-container-${tile.number}"),
-                  duration: const Duration(milliseconds: 300),
                   clipBehavior: Clip.antiAlias,
-                  curve: Curves.easeInOut,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                   ),

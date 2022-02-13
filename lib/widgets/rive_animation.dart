@@ -15,7 +15,7 @@ class RiveAnimationWidget extends StatefulWidget {
 }
 
 class _RiveAnimationWidgetState extends State<RiveAnimationWidget> {
-  late Artboard selectedArtboard;
+  Artboard? selectedArtboard;
 
   final SimpleAnimation idleController = SimpleAnimation("idle");
   final SimpleAnimation playController = SimpleAnimation("play");
@@ -23,6 +23,12 @@ class _RiveAnimationWidgetState extends State<RiveAnimationWidget> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    selectedArtboard?.remove();
+    super.dispose();
   }
 
   void initArtboard(Artboard artboard) {
@@ -52,18 +58,21 @@ class _RiveAnimationWidgetState extends State<RiveAnimationWidget> {
   }
 
   void handleWidgetUpdate() {
+    if (selectedArtboard == null) {
+      return;
+    }
     final tile = widget.tile;
 
     if (shouldPlayAnimaion(tile)) {
-      selectedArtboard.removeController(idleController);
-      selectedArtboard.addController(playController);
+      selectedArtboard?.removeController(idleController);
+      selectedArtboard?.addController(playController);
       return;
     }
 
     idleController.reset();
     playController.reset();
-    selectedArtboard.removeController(playController);
-    selectedArtboard.addController(idleController);
+    selectedArtboard?.removeController(playController);
+    selectedArtboard?.addController(idleController);
   }
 
   @override

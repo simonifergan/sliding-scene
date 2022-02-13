@@ -22,19 +22,11 @@ class Board extends StatelessWidget {
     return StoreConnector<PuzzleState, PuzzleState>(
       converter: (store) => store.state,
       builder: (context, PuzzleState state) => Container(
-          // clipBehavior: Clip.antiAlias,
-          // decoration: BoxDecoration(boxShadow: [
-          //   BoxShadow(
-          //       color: Colors.black.withOpacity(0.05),
-          //       blurRadius: 1,
-          //       spreadRadius: 2,
-          //       blurStyle: BlurStyle.outer)
-          // ], borderRadius: BorderRadius.circular(10), color: Colors.white),
           constraints: BoxConstraints(
               maxWidth: state.tileSize * 5, maxHeight: state.tileSize * 5),
           child: Stack(
             fit: StackFit.loose,
-            key: const Key("board"),
+            key: const Key("stack-tiles"),
             clipBehavior: Clip.none,
             children: state.tiles.map(renderTile).toList(),
           )),
