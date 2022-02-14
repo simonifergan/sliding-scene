@@ -80,7 +80,7 @@ class _PuzzleViewState extends State<PuzzleView> {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(right: 50),
+                      padding: const EdgeInsets.only(right: 60),
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [

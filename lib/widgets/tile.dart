@@ -5,6 +5,7 @@ import 'package:sliding_scene/interfaces/tile.dart';
 import 'package:sliding_scene/reducers/puzzle_reducer.dart';
 import 'package:sliding_scene/services/puzzle_service.dart';
 import 'package:sliding_scene/states/puzzle_state.dart';
+import 'package:sliding_scene/styles/colors.dart';
 import 'package:sliding_scene/widgets/rive_animation.dart';
 
 class TileWidget extends StatefulWidget {
@@ -43,7 +44,9 @@ class _TileWidgetState extends State<TileWidget> {
         alignment: FractionalOffset(calculateAlignment(tile.currentPosition.x),
             calculateAlignment(tile.currentPosition.y)),
         child: MouseRegion(
-          cursor: SystemMouseCursors.click,
+          cursor: gameStatus == GameStatus.playing
+              ? SystemMouseCursors.click
+              : SystemMouseCursors.basic,
           child: GestureDetector(
               onTap: () {
                 // moveTileSound.play();
@@ -57,8 +60,15 @@ class _TileWidgetState extends State<TileWidget> {
                   key: Key("tile-animated-container-${tile.number}"),
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: ThemeColors.darkBlue.withOpacity(0.6),
+                          spreadRadius: 1,
+                          blurRadius: 1,
+                          offset: const Offset(0, 2),
+                        )
+                      ]),
                   width: tileSize,
                   height: tileSize,
                   child: RiveAnimationWidget(

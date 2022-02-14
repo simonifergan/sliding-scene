@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sliding_scene/app/views/puzzle_view.dart';
+import 'package:sliding_scene/styles/colors.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -22,17 +23,17 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
           gradient: RadialGradient(
-        center: Alignment(0, 0),
-        stops: [
+        center: const Alignment(0, 0),
+        stops: const [
           0.30,
           0.70,
         ],
         radius: 2.0,
         colors: [
-          Color(0xFF0b1b28),
-          Color(0xFFd86f6b),
+          ThemeColors.darkBlue,
+          ThemeColors.red,
         ],
       )),
       child: Column(

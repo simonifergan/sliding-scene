@@ -51,7 +51,6 @@ class _MenuState extends State<Menu> {
       ),
       builder: (_context, viewModel) => Material(
           color: Colors.transparent,
-          borderRadius: BorderRadius.circular(4),
           child: Container(
             margin: const EdgeInsets.symmetric(vertical: 5),
             constraints: BoxConstraints(maxWidth: viewModel.tileSize * 5),
