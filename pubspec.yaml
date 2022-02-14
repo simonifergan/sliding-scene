@@ -15,8 +15,9 @@ dependencies:
   equatable: 2.0.3
   flutter_redux: 0.8.2
   rive: 0.8.1
-  assets_audio_player:
-    git: https://github.com/simonifergan/Flutter-AssetsAudioPlayer.git
+  assets_audio_player: 3.0.4+1
+  # assets_audio_player:
+  #   git: https://github.com/simonifergan/Flutter-AssetsAudioPlayer.git
 
   cupertino_icons: ^1.0.2
 

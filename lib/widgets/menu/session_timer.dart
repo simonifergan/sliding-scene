@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:sliding_scene/services/puzzle_service.dart';
+import 'package:sliding_scene/styles/menu_text.dart';
 
 class SessionTimer extends StatefulWidget {
   const SessionTimer(
@@ -84,14 +85,7 @@ class _SessionTimerState extends State<SessionTimer> {
           alignment: Alignment.centerLeft,
           width: 100,
           margin: const EdgeInsets.only(right: 2),
-          child: Text(
-            _formatTimer(),
-            style: const TextStyle(
-                color: Colors.white,
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.w500,
-                fontSize: 20),
-          ),
+          child: Text(_formatTimer(), style: MenuTextStyle()),
         ),
         const Icon(
           Icons.timer,

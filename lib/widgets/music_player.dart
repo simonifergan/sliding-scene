@@ -37,9 +37,13 @@ class _MusicPlayerWidgetState extends State<MusicPlayerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-        onPressed: toggle,
-        icon: Icon(
-            isPlaying ? Icons.volume_up_rounded : Icons.volume_off_rounded));
+    return InkWell(
+      borderRadius: BorderRadius.circular(10),
+      onTap: toggle,
+      child: Icon(
+        isPlaying ? Icons.volume_up_rounded : Icons.volume_off_rounded,
+        color: Colors.white,
+      ),
+    );
   }
 }

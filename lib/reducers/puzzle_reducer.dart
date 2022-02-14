@@ -1,6 +1,6 @@
 import 'package:sliding_scene/services/puzzle_service.dart';
 import 'package:sliding_scene/states/puzzle_state.dart';
-import 'package:sliding_scene/utils/responsive_tile_size.dart';
+import 'package:sliding_scene/styles/responsive_tile_size.dart';
 
 enum PuzzleActions { moveTile, shuffleBoard, setGameStatus, setTileSize }
 
