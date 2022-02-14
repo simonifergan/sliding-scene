@@ -46,6 +46,10 @@ class _MenuState extends State<Menu> {
       return;
     }
 
+    store.dispatch(
+        PuzzleAction(type: PuzzleActions.shuffleBoard, payload: _shuffles));
+    await Future.microtask(() => null);
+
     if (_shuffles == 0) {
       await Future.delayed(const Duration(seconds: 1));
     }
@@ -55,9 +59,6 @@ class _MenuState extends State<Menu> {
     });
 
     _overlayEntry.markNeedsBuild();
-
-    store.dispatch(
-        PuzzleAction(type: PuzzleActions.shuffleBoard, payload: null));
 
     return Future.delayed(
         const Duration(seconds: 1), () => handleShuffling.call(store));
@@ -125,6 +126,7 @@ class _MenuState extends State<Menu> {
             store.dispatch(PuzzleAction(
                 type: PuzzleActions.setGameStatus,
                 payload: GameStatus.playing));
+            await Future.microtask(() => null);
           }),
       builder: (_context, viewModel) => Material(
         color: Colors.transparent,
@@ -150,9 +152,9 @@ class _MenuState extends State<Menu> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    viewModel.gameStatus == GameStatus.playing &&
-                            viewModel.secondsElpased != null
+                    viewModel.secondsElpased != null
                         ? SessionTimer(
+                            gameStatus: viewModel.gameStatus,
                             secondsElpased: viewModel.secondsElpased!,
                           )
                         : const SizedBox(),

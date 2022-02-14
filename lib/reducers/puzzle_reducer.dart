@@ -27,11 +27,16 @@ PuzzleState puzzleReducer(PuzzleState state, dynamic action) {
             secondsElpased: state.secondsElpased,
             metadata: state.metadata,
             tileSize: state.tileSize,
-            gameStatus: state.gameStatus,
+            gameStatus: puzzleService.isComplete(tiles)
+                ? GameStatus.done
+                : state.gameStatus,
             moves: state.moves + 1);
       }
     case PuzzleActions.shuffleBoard:
-      final shuffledTiles = puzzleService.shuffle(state.tiles);
+      final shuffledTiles = action.payload == 0
+          ? puzzleService.sort(state.tiles)
+          : puzzleService.shuffle(state.tiles);
+
       return PuzzleState(
           size: state.size,
           tiles: shuffledTiles,

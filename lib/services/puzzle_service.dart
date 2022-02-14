@@ -28,14 +28,14 @@ class PuzzleService {
 
   int countInversions(tiles) {
     var count = 0;
-    for (var a = 0; a < tiles.length; a++) {
-      final tileA = tiles[a];
+    for (var i = 0; i < tiles.length; i++) {
+      final tileA = tiles[i];
       if (tileA.isWhitespace) {
         continue;
       }
 
-      for (var b = a + 1; b < tiles.length; b++) {
-        final tileB = tiles[b];
+      for (var j = i + 1; j < tiles.length; j++) {
+        final tileB = tiles[j];
         if (_isInversion(tileA, tileB)) {
           count++;
         }
@@ -46,13 +46,18 @@ class PuzzleService {
 
   /// Determines if the two tiles are inverted.
   bool _isInversion(Tile a, Tile b) {
-    if (!b.isWhitespace && a.number != b.number) {
+    if (b.isWhitespace) {
+      return false;
+    }
+
+    if (a.number != b.number) {
       if (b.number < a.number) {
         return b.currentPosition.compareTo(a.currentPosition) > 0;
       } else {
         return a.currentPosition.compareTo(b.currentPosition) > 0;
       }
     }
+
     return false;
   }
 
@@ -69,16 +74,16 @@ class PuzzleService {
     final whitespaceRow =
         tiles.singleWhere((tile) => tile.isWhitespace).currentPosition.y;
 
-    if (((height - whitespaceRow) + 1).isOdd) {
+    if (((height - whitespaceRow)).isOdd) {
       return inversions.isEven;
     }
+
     return inversions.isOdd;
   }
 
-  GameStatus getGameStatus(Puzzle tiles, List<int> correctTiles) {
-    return tiles.length - 1 == correctTiles.length
-        ? GameStatus.done
-        : GameStatus.playing;
+  bool isComplete(Puzzle tiles) {
+    return tiles
+        .every((tile) => tile.currentPosition.compareTo(tile.position) == 0);
   }
 
   double calculateTileAbsPosition(double measure, int x, int puzzleSize) {
@@ -123,11 +128,7 @@ class PuzzleService {
   }
 
   Puzzle moveTile(Puzzle tiles, Tile currentTile) {
-    if (currentTile.isWhitespace) {
-      return tiles;
-    }
-
-    if (isTileBlocked(tiles, currentTile)) {
+    if (currentTile.isWhitespace || isTileBlocked(tiles, currentTile)) {
       return tiles;
     }
 
@@ -153,7 +154,12 @@ class PuzzleService {
 
   List<int> getCorrectTiles(Puzzle tiles) {
     final List<int> correctTiles = [];
+    final whitespaceTile = _getWhitespaceTile(tiles);
     for (var tile in tiles) {
+      if (tile == whitespaceTile) {
+        continue;
+      }
+
       if (tile.currentPosition.compareTo(tile.position) == 0) {
         correctTiles.add(tile.number);
       }
@@ -162,21 +168,35 @@ class PuzzleService {
     return correctTiles;
   }
 
-  Puzzle shuffle(Puzzle tiles) {
-    Puzzle shuffledTiles = [];
-    do {
-      final List<Position> availablePosition =
-          List.generate(tiles.length, (index) => tiles[index].position);
-      availablePosition.shuffle();
-      shuffledTiles = List.generate(tiles.length, (index) {
-        final currentTile = tiles[index];
+  Puzzle _generateShuffledPuzzle(
+      List<Position> availablePositions, Puzzle tiles) {
+    availablePositions.shuffle();
 
-        return currentTile.clone(nextPosition: availablePosition.removeAt(0));
-      });
-    } while (
-        !isSolvable(shuffledTiles) && getCorrectTiles(shuffledTiles).isEmpty);
+    return List.generate(availablePositions.length,
+        (index) => tiles[index].clone(nextPosition: availablePositions[index]));
+  }
+
+  Puzzle shuffle(Puzzle tiles) {
+    final List<Position> availablePositions =
+        List.generate(tiles.length, (index) => tiles[index].position);
+
+    late Puzzle shuffledTiles;
+
+    shuffledTiles = _generateShuffledPuzzle(availablePositions, tiles);
+
+    while (!isSolvable(shuffledTiles) ||
+        getCorrectTiles(shuffledTiles).isNotEmpty) {
+      shuffledTiles = _generateShuffledPuzzle(availablePositions, tiles);
+    }
 
     return shuffledTiles;
+  }
+
+  Puzzle sort(Puzzle tiles) {
+    final clonedTiles = List.generate(tiles.length,
+        (index) => tiles[index].clone(nextPosition: tiles[index].position));
+
+    return clonedTiles;
   }
 }
 

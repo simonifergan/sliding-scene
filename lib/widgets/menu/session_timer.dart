@@ -1,12 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:sliding_scene/services/puzzle_service.dart';
 
 class SessionTimer extends StatefulWidget {
-  const SessionTimer({Key? key, required this.secondsElpased})
+  const SessionTimer(
+      {Key? key, required this.secondsElpased, required this.gameStatus})
       : super(key: key);
 
   final Duration secondsElpased;
+  final GameStatus gameStatus;
 
   @override
   _SessionTimerState createState() => _SessionTimerState();
@@ -17,6 +20,7 @@ class _SessionTimerState extends State<SessionTimer> {
   late Duration duration;
   late Timer timer;
   late DateTime secondsElpased;
+  late bool isActive;
 
   String _formatTimer() {
     final hours = _twoDigits(duration.inHours);
@@ -31,16 +35,37 @@ class _SessionTimerState extends State<SessionTimer> {
     });
   }
 
+  void initTicker() {
+    setState(() {
+      isActive = true;
+      duration = Duration(seconds: widget.secondsElpased.inSeconds);
+      timer = Timer.periodic(const Duration(seconds: 1), tick);
+    });
+  }
+
   @override
   void initState() {
-    duration = Duration(seconds: widget.secondsElpased.inSeconds);
-    timer = Timer.periodic(const Duration(seconds: 1), tick);
+    initTicker();
     super.initState();
   }
 
   @override
   void didUpdateWidget(covariant SessionTimer oldWidget) {
     // implement here logic for game is done.
+    final gameStatus = widget.gameStatus;
+    if (gameStatus == GameStatus.playing && !isActive) {
+      initTicker();
+    } else if (gameStatus == GameStatus.done) {
+      timer.cancel();
+      setState(() {
+        isActive = false;
+      });
+    } else if (gameStatus != GameStatus.playing) {
+      timer.cancel();
+      setState(() {
+        isActive = false;
+      });
+    }
     super.didUpdateWidget(oldWidget);
   }
 
