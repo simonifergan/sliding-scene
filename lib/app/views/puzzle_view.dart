@@ -9,6 +9,7 @@ import 'package:sliding_scene/styles/colors.dart';
 import 'package:sliding_scene/styles/responsive_tile_size.dart';
 import 'package:sliding_scene/widgets/board.dart';
 import 'package:sliding_scene/widgets/menu/menu.dart';
+import 'package:sliding_scene/widgets/menu_button.dart';
 import 'package:sliding_scene/widgets/music_player.dart';
 import 'package:sliding_scene/widgets/preview.dart';
 import 'package:sliding_scene/widgets/start_game_button.dart';
@@ -77,6 +78,10 @@ class _PuzzleViewState extends State<PuzzleView> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
                         StartGameButton(),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        MenuButton()
                       ],
                     ),
                     Padding(
