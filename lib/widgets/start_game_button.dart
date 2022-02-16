@@ -6,6 +6,7 @@ import 'package:sliding_scene/reducers/puzzle_reducer.dart';
 import 'package:sliding_scene/services/puzzle_service.dart';
 import 'package:sliding_scene/states/puzzle_state.dart';
 import 'package:sliding_scene/styles/colors.dart';
+import 'package:sliding_scene/widgets/menu_button.dart';
 
 class _ViewModel {
   _ViewModel({
@@ -116,34 +117,14 @@ class _StartGameButtonState extends State<StartGameButton> {
                   type: PuzzleActions.setGameStatus,
                   payload: GameStatus.playing));
             }),
-        builder: (_context, viewModel) => Material(
-              type: MaterialType.transparency,
-              child: Ink(
-                width: 100,
-                height: 50,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    border: Border.all(color: ThemeColors.darkBlue, width: 0.5),
-                    borderRadius: BorderRadius.circular(50),
-                    color: ThemeColors.red),
-                child: Center(
-                  child: InkWell(
-                    onTap: () {
-                      showOverlayEntry();
-                      viewModel.onTapShuffle();
-                    },
-                    child: Text(
-                      viewModel.gameStatus != GameStatus.playing
-                          ? "Start"
-                          : "Restart",
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+        builder: (_context, viewModel) => MenuButton(
+              text: viewModel.gameStatus != GameStatus.playing
+                  ? "Start"
+                  : "Restart",
+              onTap: () {
+                showOverlayEntry();
+                viewModel.onTapShuffle();
+              },
             ));
   }
 }

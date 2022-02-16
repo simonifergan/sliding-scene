@@ -25,7 +25,7 @@ class LeaderboardEntry {
       'name': name,
       'moves': moves,
       'seconds': seconds,
-      'timestamp': timestamp,
+      'timestamp': Timestamp.fromDate(timestamp),
     };
   }
 }

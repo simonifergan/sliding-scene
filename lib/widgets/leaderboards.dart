@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_scene/models/leaderboard_entry.dart';
+import 'package:sliding_scene/services/leaderboards_service.dart';
 import 'package:sliding_scene/utils/format_time.dart';
 
 const notAvailable = "N/A";
@@ -8,18 +9,15 @@ const notAvailable = "N/A";
 class Leaderboards extends StatefulWidget {
   const Leaderboards({Key? key}) : super(key: key);
 
+  static get tag => "leaderboards";
+
   @override
   _LeaderboardsState createState() => _LeaderboardsState();
 }
 
 class _LeaderboardsState extends State<Leaderboards> {
-  final Stream<QuerySnapshot> _leaderboardsStream = FirebaseFirestore.instance
-      .collection('leaderboards')
-      .withConverter<LeaderboardEntry>(
-          fromFirestore: (snapshot, _) =>
-              LeaderboardEntry.fromJson(snapshot.data()!),
-          toFirestore: (entry, _) => entry.toJson())
-      .snapshots();
+  final Stream<QuerySnapshot> _leaderboardsStream =
+      LeaderboardsService.instance.snapshots();
   @override
   @override
   Widget build(BuildContext context) {
@@ -37,7 +35,6 @@ class _LeaderboardsState extends State<Leaderboards> {
         return Table(
           children: snapshot.data!.docs.map((DocumentSnapshot document) {
             LeaderboardEntry data = document.data()! as LeaderboardEntry;
-            print(data);
             return TableRow(
               children: [
                 Text(data.name),
@@ -49,5 +46,14 @@ class _LeaderboardsState extends State<Leaderboards> {
         );
       },
     );
+  }
+}
+
+class LeaderboardsButton extends StatelessWidget {
+  const LeaderboardsButton({Key? key, required this.button}) : super(key: key);
+  final Widget button;
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }

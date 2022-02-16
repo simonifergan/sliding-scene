@@ -8,25 +8,28 @@ class Preview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-          onTap: () {
-            Navigator.of(context).pop();
-          },
-          child: Hero(
-              tag: Preview.tag,
-              child: LayoutBuilder(
-                builder: (context, constraints) => Container(
-                    width: constraints.maxWidth / 2,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        border: Border.all(color: Colors.black)),
-                    child: Image.asset(
-                      "images/windmill_preview.png",
-                      fit: BoxFit.fitWidth,
-                    )),
-              ))),
+    return Hero(
+      tag: Preview.tag,
+      child: LayoutBuilder(
+          builder: (context, constraints) => MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: SizedBox(
+                    width: constraints.maxHeight,
+                    height: constraints.maxHeight,
+                    child: Container(
+                        width: constraints.maxWidth / 2,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            border: Border.all(color: Colors.black)),
+                        child: Image.asset(
+                          "images/windmill_preview.png",
+                          fit: BoxFit.fitWidth,
+                        )),
+                  )))),
     );
   }
 }

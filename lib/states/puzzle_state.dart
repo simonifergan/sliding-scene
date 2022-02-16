@@ -1,8 +1,7 @@
 import 'package:sliding_scene/interfaces/metadata.dart';
 import 'package:sliding_scene/services/puzzle_service.dart';
 
-// const double tileSize = 180; // Desktop
-// const double tileSize = 60; // mobile
+const zeroSecondsDuration = Duration(seconds: 0);
 
 class PuzzleState {
   PuzzleState({
@@ -13,7 +12,7 @@ class PuzzleState {
     this.size = 4,
     this.gameStatus = GameStatus.notPlaying,
     this.moves = 0,
-    this.secondsElpased,
+    this.secondsElpased = Duration.zero,
   });
 
   Puzzle tiles = [];
@@ -23,5 +22,5 @@ class PuzzleState {
   PuzzleMetadata metadata;
   double tileSize;
   int moves;
-  Duration? secondsElpased;
+  Duration secondsElpased;
 }

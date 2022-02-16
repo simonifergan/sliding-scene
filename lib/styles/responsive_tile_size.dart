@@ -14,7 +14,7 @@ double getTileSize(BoxConstraints constraints) {
 
   if (constraints.maxWidth < 400) {
     tileSize = ResponseTileSize.xsmall;
-  } else if (constraints.maxWidth < 620) {
+  } else if (constraints.maxWidth < 710) {
     tileSize = ResponseTileSize.small;
   } else if (constraints.maxWidth < 825) {
     tileSize = ResponseTileSize.medium;

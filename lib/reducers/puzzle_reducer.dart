@@ -2,7 +2,13 @@ import 'package:sliding_scene/services/puzzle_service.dart';
 import 'package:sliding_scene/states/puzzle_state.dart';
 import 'package:sliding_scene/styles/responsive_tile_size.dart';
 
-enum PuzzleActions { moveTile, shuffleBoard, setGameStatus, setTileSize }
+enum PuzzleActions {
+  moveTile,
+  shuffleBoard,
+  setGameStatus,
+  setTileSize,
+  setSecondsElpased
+}
 
 class PuzzleAction {
   PuzzleAction({required this.type, required this.payload});
@@ -54,10 +60,22 @@ PuzzleState puzzleReducer(PuzzleState state, dynamic action) {
           metadata: state.metadata,
           gameStatus: action.payload,
           tileSize: state.tileSize,
-          secondsElpased: action.payload == GameStatus.playing
-              ? const Duration(seconds: 0)
-              : state.secondsElpased);
+          secondsElpased: action.payload == GameStatus.playing ||
+                  action.payload == GameStatus.notPlaying
+              ? Duration.zero
+              : state.secondsElpased,
+          moves: action.payload == GameStatus.notPlaying ? 0 : state.moves);
 
+    case PuzzleActions.setSecondsElpased:
+      return PuzzleState(
+          size: state.size,
+          tiles: state.tiles,
+          correctTiles: state.correctTiles,
+          metadata: state.metadata,
+          gameStatus: state.gameStatus,
+          tileSize: state.tileSize,
+          secondsElpased: action.payload,
+          moves: state.moves);
     case PuzzleActions.setTileSize:
       return PuzzleState(
           size: state.size,

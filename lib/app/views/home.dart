@@ -23,20 +23,20 @@ class Home extends StatelessWidget {
 
   Widget menuButton(String text, void Function() onTap) {
     return Ink(
-      width: 100,
-      height: 50,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-          border: Border.all(color: ThemeColors.red, width: 0.5),
-          borderRadius: BorderRadius.circular(50),
-          color: ThemeColors.yellow),
+        border: Border.all(color: ThemeColors.red, width: 0.5),
+        borderRadius: BorderRadius.circular(50),
+      ),
       child: InkWell(
         onTap: onTap,
         child: Text(
           text,
-          style: const TextStyle(
+          style: TextStyle(
+            color: ThemeColors.yellow,
             fontWeight: FontWeight.bold,
-            fontSize: 16,
+            fontSize: 25,
+            letterSpacing: 2,
           ),
         ),
       ),
@@ -64,10 +64,23 @@ class Home extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Text(
+                "Sliding Scene",
+                style: TextStyle(
+                    fontFamily: "MaShanZheng",
+                    letterSpacing: 18,
+                    color: ThemeColors.yellow,
+                    fontSize: 100),
+              ),
+              const SizedBox(
+                height: 200,
+              ),
               menuButton(
                 "Play",
                 () => Navigator.push(context, transitionToPuzzle()),
               ),
+              menuButton("Leaderboards", () {}),
+              menuButton("Credits", () {}),
               const SizedBox.square(dimension: 500, child: Leaderboards())
             ],
           ),

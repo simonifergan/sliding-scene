@@ -3,8 +3,13 @@ import 'package:sliding_scene/styles/colors.dart';
 
 class MenuButton extends StatelessWidget {
   const MenuButton({
+    required this.text,
+    required this.onTap,
     Key? key,
   }) : super(key: key);
+
+  final String text;
+  final Function onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -17,16 +22,18 @@ class MenuButton extends StatelessWidget {
         decoration: BoxDecoration(
             border: Border.all(color: ThemeColors.darkBlue, width: 0.5),
             borderRadius: BorderRadius.circular(50),
-            color: ThemeColors.red),
+            color: ThemeColors.yellow),
         child: Center(
           child: InkWell(
             onTap: () {
-              Navigator.pop(context);
+              onTap();
             },
-            child: const Text(
-              "Menu",
+            child: Text(
+              text,
               style: TextStyle(
+                color: ThemeColors.darkBlue,
                 fontWeight: FontWeight.bold,
+                letterSpacing: 2,
                 fontSize: 16,
               ),
             ),
