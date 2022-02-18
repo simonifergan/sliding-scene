@@ -6,7 +6,6 @@ import 'package:sliding_scene/states/puzzle_state.dart';
 import 'package:sliding_scene/styles/responsive_tile_size.dart';
 import 'package:sliding_scene/widgets/menu/moves.dart';
 import 'package:sliding_scene/widgets/music_player.dart';
-import 'package:sliding_scene/widgets/preview.dart';
 import 'package:sliding_scene/widgets/menu/session_timer.dart';
 
 class _ViewModel {
@@ -66,14 +65,6 @@ class _MenuState extends State<Menu> {
                   ...viewModel.tileSize < ResponseTileSize.medium
                       ? [
                           const SizedBox(height: 20),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: const [
-                                PreviewButton(),
-                                Padding(
-                                    padding: EdgeInsets.fromLTRB(15, 0, 5, 0),
-                                    child: MusicPlayerWidget()),
-                              ])
                         ]
                       : []
                 ],

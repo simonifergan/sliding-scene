@@ -7,7 +7,8 @@ enum PuzzleActions {
   shuffleBoard,
   setGameStatus,
   setTileSize,
-  setSecondsElpased
+  setSecondsElpased,
+  setSound
 }
 
 class PuzzleAction {
@@ -32,25 +33,30 @@ PuzzleState puzzleReducer(PuzzleState state, dynamic action) {
             correctTiles: puzzleService.getCorrectTiles(tiles),
             secondsElpased: state.secondsElpased,
             metadata: state.metadata,
+            sound: state.sound,
             tileSize: state.tileSize,
             gameStatus: puzzleService.isComplete(tiles)
                 ? GameStatus.done
                 : state.gameStatus,
             moves: state.moves + 1);
       }
-    case PuzzleActions.shuffleBoard:
-      final shuffledTiles = action.payload == 0
-          ? puzzleService.sort(state.tiles)
-          : puzzleService.shuffle(state.tiles);
 
-      return PuzzleState(
-          size: state.size,
-          tiles: shuffledTiles,
-          correctTiles: puzzleService.getCorrectTiles(shuffledTiles),
-          metadata: state.metadata,
-          tileSize: state.tileSize,
-          gameStatus: GameStatus.shuffling,
-          secondsElpased: state.secondsElpased);
+    case PuzzleActions.shuffleBoard:
+      {
+        final shuffledTiles = action.payload == 0
+            ? puzzleService.sort(state.tiles)
+            : puzzleService.shuffle(state.tiles);
+
+        return PuzzleState(
+            size: state.size,
+            tiles: shuffledTiles,
+            correctTiles: puzzleService.getCorrectTiles(shuffledTiles),
+            metadata: state.metadata,
+            sound: state.sound,
+            tileSize: state.tileSize,
+            gameStatus: GameStatus.shuffling,
+            secondsElpased: Duration.zero);
+      }
 
     case PuzzleActions.setGameStatus:
       return PuzzleState(
@@ -58,6 +64,7 @@ PuzzleState puzzleReducer(PuzzleState state, dynamic action) {
           tiles: state.tiles,
           correctTiles: [],
           metadata: state.metadata,
+          sound: state.sound,
           gameStatus: action.payload,
           tileSize: state.tileSize,
           secondsElpased: action.payload == GameStatus.playing ||
@@ -72,20 +79,36 @@ PuzzleState puzzleReducer(PuzzleState state, dynamic action) {
           tiles: state.tiles,
           correctTiles: state.correctTiles,
           metadata: state.metadata,
+          sound: state.sound,
           gameStatus: state.gameStatus,
           tileSize: state.tileSize,
           secondsElpased: action.payload,
           moves: state.moves);
+
     case PuzzleActions.setTileSize:
       return PuzzleState(
           size: state.size,
           tiles: state.tiles,
           correctTiles: state.correctTiles,
           metadata: state.metadata,
+          sound: state.sound,
           gameStatus: state.gameStatus,
           tileSize: getTileSize(action.payload),
           moves: state.moves,
           secondsElpased: state.secondsElpased);
+
+    case PuzzleActions.setSound:
+      return PuzzleState(
+          size: state.size,
+          tiles: state.tiles,
+          correctTiles: state.correctTiles,
+          metadata: state.metadata,
+          sound: action.payload,
+          gameStatus: state.gameStatus,
+          tileSize: state.tileSize,
+          moves: state.moves,
+          secondsElpased: state.secondsElpased);
+
     default:
       return state;
   }

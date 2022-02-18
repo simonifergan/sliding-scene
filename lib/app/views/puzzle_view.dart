@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:sliding_scene/reducers/puzzle_reducer.dart';
+import 'package:sliding_scene/services/music_service.dart';
 import 'package:sliding_scene/services/puzzle_service.dart';
 import 'package:sliding_scene/states/puzzle_state.dart';
 import 'package:sliding_scene/styles/colors.dart';
@@ -117,83 +118,93 @@ class _PuzzleViewState extends State<PuzzleView> {
       final tileSize = state.tileSize;
       final gameStatus = state.gameStatus;
 
-      return Material(
-        type: MaterialType.transparency,
-        child: AnimatedContainer(
-          duration: const Duration(seconds: 1),
-          decoration: BoxDecoration(
-              gradient: RadialGradient(
-            center: const Alignment(0, 0),
-            stops: isReversed ? fromStops : toStops,
-            radius: 1.0,
-            colors: [ThemeColors.red, ThemeColors.darkBlue],
-          )),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ...tileSize < ResponseTileSize.medium
-                  ? [
-                      Column(children: [
-                        const SafeArea(
+      return Scaffold(
+        floatingActionButton: MusicPlayerWidget(
+          song: MusicService.crescentMoon,
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
+        body: Material(
+          type: MaterialType.transparency,
+          child: AnimatedContainer(
+            duration: const Duration(seconds: 1),
+            decoration: BoxDecoration(
+                gradient: RadialGradient(
+              center: const Alignment(0, 0),
+              stops: isReversed ? fromStops : toStops,
+              radius: 1.0,
+              colors: [ThemeColors.red, ThemeColors.darkBlue],
+            )),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ...tileSize < ResponseTileSize.medium
+                    ? [
+                        Column(children: [
+                          const SafeArea(
+                              child: Padding(
+                            padding: EdgeInsets.only(top: 15.0),
+                            child: Menu(),
+                          )),
+                          Center(
                             child: Padding(
-                          padding: EdgeInsets.only(top: 15.0),
-                          child: Menu(),
-                        )),
-                        Center(
-                          child: Padding(
-                            padding:
-                                EdgeInsets.fromLTRB(0, tileSize * 2, 0, 50),
-                            child: const Board(),
+                              padding:
+                                  EdgeInsets.fromLTRB(0, tileSize * 2, 0, 50),
+                              child: const Board(),
+                            ),
                           ),
-                        ),
-                        Row(
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: const [PreviewButton()],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            children: const [
+                              StartGameButton(),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              BackToMenuButton()
+                            ],
+                          ),
+                        ]),
+                      ]
+                    : [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
                             StartGameButton(),
                             SizedBox(
-                              width: 15,
+                              height: 15,
                             ),
                             BackToMenuButton()
                           ],
                         ),
-                      ]),
-                    ]
-                  : [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          StartGameButton(),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          BackToMenuButton()
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 70),
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              SafeArea(child: Menu()),
-                              Board(),
-                            ]),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Column(children: const [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 0),
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                SafeArea(child: Menu()),
+                                Board(),
+                              ]),
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: const [
                             Padding(
-                              padding: EdgeInsets.only(bottom: 15),
-                              child: MusicPlayerWidget(),
-                            ),
-                            PreviewButton()
-                          ])
-                        ],
-                      ),
-                    ],
-              gameStatus == GameStatus.done
-                  ? const GameCompletionDialog()
-                  : const SizedBox()
-            ],
+                              padding: EdgeInsets.fromLTRB(0, 0, 0, 30.0),
+                              child: PreviewButton(),
+                            )
+                          ],
+                        ),
+                      ],
+                gameStatus == GameStatus.done
+                    ? const GameCompletionDialog()
+                    : const SizedBox()
+              ],
+            ),
           ),
         ),
       );

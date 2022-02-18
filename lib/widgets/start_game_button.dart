@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:sliding_scene/reducers/puzzle_reducer.dart';
 import 'package:sliding_scene/services/puzzle_service.dart';
 import 'package:sliding_scene/states/puzzle_state.dart';
@@ -28,6 +29,7 @@ class StartGameButton extends StatefulWidget {
 class _StartGameButtonState extends State<StartGameButton> {
   late int _shuffles;
   late OverlayEntry _overlayEntry;
+  late AudioPlayer _tickSoundPlayer;
 
   Future<void> handleShuffling(dynamic store) async {
     if (_shuffles >= 3) {
@@ -41,11 +43,13 @@ class _StartGameButtonState extends State<StartGameButton> {
 
     store.dispatch(
         PuzzleAction(type: PuzzleActions.shuffleBoard, payload: _shuffles));
-    await Future.microtask(() => null);
-
     if (_shuffles == 0) {
+      await playTickSound();
+
       await Future.delayed(const Duration(seconds: 1));
     }
+
+    await playTickSound();
 
     setState(() {
       _shuffles++;
@@ -57,11 +61,20 @@ class _StartGameButtonState extends State<StartGameButton> {
         const Duration(seconds: 1), () => handleShuffling.call(store));
   }
 
+  Future<void> playTickSound() async {
+    await _tickSoundPlayer.stop();
+    await _tickSoundPlayer.seek(null);
+    unawaited(_tickSoundPlayer.play());
+  }
+
   @override
   void initState() {
-    _shuffles = 0;
-
     super.initState();
+    _shuffles = 0;
+    _tickSoundPlayer = AudioPlayer();
+    _tickSoundPlayer.setAsset(
+      "sounds/effects/tick.mp3",
+    );
   }
 
   void showOverlayEntry() {
@@ -107,6 +120,12 @@ class _StartGameButtonState extends State<StartGameButton> {
   }
 
   @override
+  void dispose() {
+    _tickSoundPlayer.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StoreConnector<PuzzleState, _ViewModel>(
         converter: (store) => _ViewModel(
@@ -118,9 +137,11 @@ class _StartGameButtonState extends State<StartGameButton> {
                   payload: GameStatus.playing));
             }),
         builder: (_context, viewModel) => MenuButton(
-              text: viewModel.gameStatus != GameStatus.playing
-                  ? "Start"
-                  : "Restart",
+              text: viewModel.gameStatus == GameStatus.shuffling
+                  ? "Ready?"
+                  : viewModel.gameStatus != GameStatus.playing
+                      ? "Start"
+                      : "Restart",
               onTap: () {
                 showOverlayEntry();
                 viewModel.onTapShuffle();

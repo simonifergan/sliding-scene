@@ -6,7 +6,7 @@ import 'package:sliding_scene/reducers/puzzle_reducer.dart';
 import 'package:sliding_scene/services/puzzle_service.dart';
 import 'package:sliding_scene/states/puzzle_state.dart';
 import 'package:sliding_scene/styles/menu_text.dart';
-import 'package:sliding_scene/utils/format_time.dart';
+import 'package:sliding_scene/utils/format.dart';
 
 class SessionTimer extends StatefulWidget {
   const SessionTimer(
@@ -75,7 +75,7 @@ class _SessionTimerState extends State<SessionTimer> {
       children: [
         Container(
           alignment: Alignment.centerLeft,
-          width: 100,
+          width: 120,
           margin: const EdgeInsets.only(right: 2),
           child: Text(FormatTime.formatTime(widget.secondsElpased),
               style: const MenuTextStyle()),

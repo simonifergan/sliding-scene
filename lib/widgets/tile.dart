@@ -49,7 +49,7 @@ class _TileWidgetState extends State<TileWidget> {
               : SystemMouseCursors.basic,
           child: GestureDetector(
               onTap: () {
-                // moveTileSound.play();
+                moveTileSound.play();
                 if (gameStatus != GameStatus.playing) {
                   return;
                 }

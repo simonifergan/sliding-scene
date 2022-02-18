@@ -42,7 +42,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        minSdkVersion 19
         applicationId "com.example.sliding_scene"
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion

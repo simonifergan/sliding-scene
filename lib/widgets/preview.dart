@@ -1,15 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:rive/rive.dart';
+
 import 'package:sliding_scene/widgets/hero_dialog.dart';
 
 class Preview extends StatelessWidget {
-  const Preview({Key? key}) : super(key: key);
+  Preview({Key? key, this.animated = true}) : super(key: key);
+
+  final bool animated;
+  final windmillController = SimpleAnimation("windmill");
+  final windmillIdleController = SimpleAnimation("windmill_idle");
+  final bonfireController = SimpleAnimation("bonfire");
+  final bonfireIdleController = SimpleAnimation("bonfire_idle");
+
+  @override
+  Widget build(BuildContext context) {
+    return RiveAnimation.asset(
+      'rive/windmill.riv',
+      artboard: "windmill",
+      fit: BoxFit.contain,
+      controllers: [windmillIdleController, bonfireIdleController],
+      onInit: (artboard) async {
+        if (!animated) {
+          return;
+        }
+
+        await Future.delayed(const Duration(milliseconds: 300));
+
+        artboard.removeController(windmillIdleController);
+        artboard.removeController(bonfireIdleController);
+        artboard.addController(windmillController);
+        artboard.addController(bonfireController);
+      },
+      placeHolder: Image.asset(
+        "images/windmill.png",
+        fit: BoxFit.contain,
+      ),
+    );
+  }
+}
+
+class PreviewHero extends StatelessWidget {
+  const PreviewHero({Key? key}) : super(key: key);
 
   static String get tag => "preview";
 
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: Preview.tag,
+      tag: PreviewHero.tag,
       child: LayoutBuilder(
           builder: (context, constraints) => MouseRegion(
               cursor: SystemMouseCursors.click,
@@ -17,18 +55,19 @@ class Preview extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).pop();
                   },
-                  child: SizedBox(
-                    width: constraints.maxHeight,
-                    height: constraints.maxHeight,
-                    child: Container(
-                        width: constraints.maxWidth / 2,
-                        decoration: BoxDecoration(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: SizedBox(
+                      width: constraints.maxHeight,
+                      height: constraints.maxHeight,
+                      child: Container(
+                          width: constraints.maxWidth / 2,
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4),
-                            border: Border.all(color: Colors.black)),
-                        child: Image.asset(
-                          "images/windmill_preview.png",
-                          fit: BoxFit.fitWidth,
-                        )),
+                          ),
+                          child: Preview(
+                              key: const Key("rive-preview-fullscreen"))),
+                    ),
                   )))),
     );
   }
@@ -43,23 +82,28 @@ class PreviewButton extends StatelessWidget {
         onTap: () {
           Navigator.of(context).push(HeroDialog(
             builder: (context) => const Center(
-              child: Preview(
-                key: Key("rive-fullscreen"),
+              child: PreviewHero(
+                key: Key("preview-hero"),
               ),
             ),
           ));
         },
         child: MouseRegion(
-          cursor: SystemMouseCursors.click,
-          child: Hero(
-              tag: Preview.tag,
-              child: Container(
-                margin: const EdgeInsets.only(right: 2),
-                child: const Icon(
-                  Icons.photo_library_outlined,
-                  color: Colors.white,
-                ),
-              )),
-        ));
+            cursor: SystemMouseCursors.click,
+            child: Hero(
+                tag: PreviewHero.tag,
+                child: Container(
+                  width: 120,
+                  height: 120,
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  margin: const EdgeInsets.only(right: 2),
+                  child: Preview(
+                    key: const Key("rive-preview-thumbnail"),
+                    animated: false,
+                  ),
+                ))));
   }
 }

@@ -22,15 +22,9 @@ class DefaultFirebaseOptions {
     // ignore: missing_enum_constant_in_switch
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for android - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -50,5 +44,23 @@ class DefaultFirebaseOptions {
     projectId: 'sliding-scene',
     authDomain: 'sliding-scene.firebaseapp.com',
     storageBucket: 'sliding-scene.appspot.com',
+  );
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyBiblkC_ylH442CGdD-VlxwcApy-JfVNoM',
+    appId: '1:1023967397536:android:435dcf8162271e43b5ebc5',
+    messagingSenderId: '1023967397536',
+    projectId: 'sliding-scene',
+    storageBucket: 'sliding-scene.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyDyG9BWS7SmLNwIzYNC27tKPZMseQHjWhQ',
+    appId: '1:1023967397536:ios:186406ec1f4a7de7b5ebc5',
+    messagingSenderId: '1023967397536',
+    projectId: 'sliding-scene',
+    storageBucket: 'sliding-scene.appspot.com',
+    iosClientId: '1023967397536-cdprd8vhku8pgnsm0c41v87u2fci3f71.apps.googleusercontent.com',
+    iosBundleId: 'com.example.slidingscene',
   );
 }

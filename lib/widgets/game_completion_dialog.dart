@@ -1,10 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:sliding_scene/models/leaderboard_entry.dart';
-import 'package:sliding_scene/reducers/puzzle_reducer.dart';
 import 'package:sliding_scene/services/leaderboards_service.dart';
-import 'package:sliding_scene/services/puzzle_service.dart';
 import 'package:sliding_scene/states/puzzle_state.dart';
 import 'package:sliding_scene/styles/colors.dart';
 
@@ -31,7 +28,7 @@ class _GameCompletionDialogState extends State<GameCompletionDialog> {
     final seconds = state.secondsElpased.inSeconds;
     final name = _textEditingController.text;
 
-    return LeaderboardsService.instance.add(LeaderboardEntry(
+    await LeaderboardsService.instance.add(LeaderboardEntry(
         name: name, moves: moves, seconds: seconds, timestamp: DateTime.now()));
   }
 
@@ -76,13 +73,8 @@ class _GameCompletionDialogState extends State<GameCompletionDialog> {
                   actions: [
                     TextButton(
                       onPressed: () {
-                        onSubmitDialog().then((_) {
-                          Navigator.pop(context);
-                          StoreProvider.of<PuzzleState>(context).dispatch(
-                              PuzzleAction(
-                                  type: PuzzleActions.setGameStatus,
-                                  payload: GameStatus.notPlaying));
-                        });
+                        onSubmitDialog();
+                        Navigator.pop(context);
                       },
                       child: const Text('Submit'),
                     ),

@@ -6,4 +6,7 @@ class FormatTime {
     final seconds = _twoDigits(duration.inSeconds.remainder(60));
     return " $hours:$minutes:$seconds ";
   }
+
+  static String formatDate(DateTime now) =>
+      "${now.year.toString()}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')} ${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}";
 }

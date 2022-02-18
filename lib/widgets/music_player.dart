@@ -1,9 +1,18 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:sliding_scene/reducers/puzzle_reducer.dart';
+import 'package:sliding_scene/states/puzzle_state.dart';
+import 'package:sliding_scene/styles/colors.dart';
 
 class MusicPlayerWidget extends StatefulWidget {
-  const MusicPlayerWidget({Key? key}) : super(key: key);
+  const MusicPlayerWidget({
+    Key? key,
+    required this.song,
+  }) : super(key: key);
+
+  final String song;
 
   @override
   _MusicPlayerWidgetState createState() => _MusicPlayerWidgetState();
@@ -11,19 +20,21 @@ class MusicPlayerWidget extends StatefulWidget {
 
 class _MusicPlayerWidgetState extends State<MusicPlayerWidget> {
   late AssetsAudioPlayer musicPlayer;
-  bool isPlaying = false;
+  bool isPlaying = true;
+
   @override
   void initState() {
     musicPlayer = AssetsAudioPlayer.withId("music-player-widget");
-    musicPlayer.open(
-        Audio.file("assets/sounds/music/purple_cat-crescent_moon.mp3"),
-        autoStart: false,
-        loopMode: LoopMode.single);
+    musicPlayer.open(Audio.file("assets/sounds/music/${widget.song}"),
+        autoStart: false, loopMode: LoopMode.single);
+
     super.initState();
   }
 
   void toggle() {
     musicPlayer.playOrPause();
+    StoreProvider.of<PuzzleState>(context).dispatch(
+        PuzzleAction(type: PuzzleActions.setSound, payload: !isPlaying));
     setState(() {
       isPlaying = !isPlaying;
     });
@@ -42,7 +53,8 @@ class _MusicPlayerWidgetState extends State<MusicPlayerWidget> {
       onTap: toggle,
       child: Icon(
         isPlaying ? Icons.volume_up_rounded : Icons.volume_off_rounded,
-        color: Colors.white,
+        color: ThemeColors.yellow,
+        size: 30,
       ),
     );
   }

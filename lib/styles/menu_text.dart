@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class MenuTextStyle extends TextStyle {
   const MenuTextStyle({
     this.bold = true,
-    this.size = 20,
+    this.size = 24,
   });
 
   final bool bold;

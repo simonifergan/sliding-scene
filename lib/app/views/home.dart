@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sliding_scene/app/views/puzzle_view.dart';
+import 'package:sliding_scene/services/music_service.dart';
 import 'package:sliding_scene/styles/colors.dart';
 import 'package:sliding_scene/widgets/leaderboards.dart';
+import 'package:sliding_scene/widgets/music_player.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -36,7 +38,7 @@ class Home extends StatelessWidget {
             color: ThemeColors.yellow,
             fontWeight: FontWeight.bold,
             fontSize: 25,
-            letterSpacing: 2,
+            letterSpacing: 1.7,
           ),
         ),
       ),
@@ -46,44 +48,34 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-        type: MaterialType.transparency,
-        child: Container(
-          decoration: BoxDecoration(
-              gradient: RadialGradient(
-            center: const Alignment(0, 0),
-            stops: const [
-              0.30,
-              0.70,
-            ],
-            radius: 2.0,
-            colors: [
-              ThemeColors.darkBlue,
-              ThemeColors.red,
-            ],
-          )),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Sliding Scene",
-                style: TextStyle(
-                    fontFamily: "MaShanZheng",
-                    letterSpacing: 18,
-                    color: ThemeColors.yellow,
-                    fontSize: 100),
-              ),
-              const SizedBox(
-                height: 200,
-              ),
-              menuButton(
-                "Play",
-                () => Navigator.push(context, transitionToPuzzle()),
-              ),
-              menuButton("Leaderboards", () {}),
-              menuButton("Credits", () {}),
-              const SizedBox.square(dimension: 500, child: Leaderboards())
-            ],
-          ),
-        ));
+      type: MaterialType.transparency,
+      child: Container(
+        decoration: BoxDecoration(
+            gradient: RadialGradient(
+          center: const Alignment(0, 0),
+          stops: const [
+            0.30,
+            0.70,
+          ],
+          radius: 2.0,
+          colors: [
+            ThemeColors.darkBlue,
+            ThemeColors.red,
+          ],
+        )),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            menuButton(
+              "Play",
+              () => Navigator.push(context, transitionToPuzzle()),
+            ),
+            menuButton("Leaderboards", () {}),
+            menuButton("Credits", () {}),
+            const SizedBox.square(dimension: 500, child: Leaderboards())
+          ],
+        ),
+      ),
+    );
   }
 }

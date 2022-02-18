@@ -12,13 +12,13 @@ class ResponseTileSize {
 double getTileSize(BoxConstraints constraints) {
   double tileSize;
 
-  if (constraints.maxWidth < 400) {
+  if (constraints.maxWidth < 410) {
     tileSize = ResponseTileSize.xsmall;
-  } else if (constraints.maxWidth < 710) {
+  } else if (constraints.maxWidth < 760) {
     tileSize = ResponseTileSize.small;
-  } else if (constraints.maxWidth < 825) {
+  } else if (constraints.maxWidth < 900) {
     tileSize = ResponseTileSize.medium;
-  } else if (constraints.maxWidth < 1050) {
+  } else if (constraints.maxWidth < 1100) {
     tileSize = ResponseTileSize.large;
   } else if (constraints.maxWidth < 1200) {
     tileSize = ResponseTileSize.xlarge;

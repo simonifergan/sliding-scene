@@ -9,6 +9,7 @@ class PuzzleState {
     required this.correctTiles,
     required this.metadata,
     required this.tileSize,
+    required this.sound,
     this.size = 4,
     this.gameStatus = GameStatus.notPlaying,
     this.moves = 0,
@@ -23,4 +24,5 @@ class PuzzleState {
   double tileSize;
   int moves;
   Duration secondsElpased;
+  bool sound;
 }
