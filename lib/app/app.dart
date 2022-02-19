@@ -42,7 +42,7 @@ class _AppState extends State<App> {
           fontFamily: "Montserrat",
         ),
         onGenerateRoute: route.controller,
-        initialRoute: route.puzzleRoute,
+        initialRoute: route.homeRoute,
       ),
     );
   }

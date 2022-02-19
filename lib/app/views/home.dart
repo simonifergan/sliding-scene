@@ -3,6 +3,7 @@ import 'package:sliding_scene/app/views/puzzle_view.dart';
 import 'package:sliding_scene/styles/colors.dart';
 import 'package:sliding_scene/styles/responsive_tile_size.dart';
 import 'package:sliding_scene/widgets/leaderboards.dart';
+import 'package:sliding_scene/widgets/random_sliding_tile.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -55,10 +56,10 @@ class Home extends StatelessWidget {
               gradient: RadialGradient(
             center: const Alignment(0, 0),
             stops: const [
-              0.30,
-              0.70,
+              0.20,
+              0.80,
             ],
-            radius: 2.0,
+            radius: 2,
             colors: [
               ThemeColors.darkBlue,
               ThemeColors.red,
@@ -67,6 +68,18 @@ class Home extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Text(
+                "Sliding Scene",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: ThemeColors.yellow,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 52,
+                  fontStyle: FontStyle.italic,
+                  letterSpacing: 3,
+                ),
+              ),
+              const RandomSlidingTile(),
               menuButton(
                 "Play",
                 () => Navigator.push(context, transitionToPuzzle()),
