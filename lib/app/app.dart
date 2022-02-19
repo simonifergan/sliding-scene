@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:rive/rive.dart';
 
 import 'package:sliding_scene/app/puzzles/windmill.dart';
 import 'package:sliding_scene/app/routes/route.dart' as route;
@@ -10,7 +9,6 @@ import 'package:sliding_scene/states/puzzle_state.dart';
 
 import 'package:redux/redux.dart';
 import 'package:sliding_scene/styles/responsive_tile_size.dart';
-import 'package:sliding_scene/widgets/music_player.dart';
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
@@ -26,7 +24,7 @@ class _AppState extends State<App> {
           correctTiles: [],
           metadata: windmillPuzzle(),
           tileSize: ResponseTileSize.xxlarge,
-          sound: true));
+          sound: false));
 
   @override
   void initState() {
@@ -44,7 +42,7 @@ class _AppState extends State<App> {
           fontFamily: "Montserrat",
         ),
         onGenerateRoute: route.controller,
-        initialRoute: route.homeRoute,
+        initialRoute: route.puzzleRoute,
       ),
     );
   }

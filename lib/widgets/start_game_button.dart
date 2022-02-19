@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:sliding_scene/reducers/puzzle_reducer.dart';
 import 'package:sliding_scene/services/puzzle_service.dart';
 import 'package:sliding_scene/states/puzzle_state.dart';
@@ -29,7 +29,8 @@ class StartGameButton extends StatefulWidget {
 class _StartGameButtonState extends State<StartGameButton> {
   late int _shuffles;
   late OverlayEntry _overlayEntry;
-  late AudioPlayer _tickSoundPlayer;
+
+  late AssetsAudioPlayer _tickSoundAssetPlayer;
 
   Future<void> handleShuffling(dynamic store) async {
     if (_shuffles >= 3) {
@@ -43,13 +44,12 @@ class _StartGameButtonState extends State<StartGameButton> {
 
     store.dispatch(
         PuzzleAction(type: PuzzleActions.shuffleBoard, payload: _shuffles));
+
     if (_shuffles == 0) {
-      await playTickSound();
-
-      await Future.delayed(const Duration(seconds: 1));
+      playTickSound(store);
+      await Future.delayed(const Duration(milliseconds: 950));
     }
-
-    await playTickSound();
+    playTickSound(store);
 
     setState(() {
       _shuffles++;
@@ -61,20 +61,23 @@ class _StartGameButtonState extends State<StartGameButton> {
         const Duration(seconds: 1), () => handleShuffling.call(store));
   }
 
-  Future<void> playTickSound() async {
-    await _tickSoundPlayer.stop();
-    await _tickSoundPlayer.seek(null);
-    unawaited(_tickSoundPlayer.play());
+  Future<void> playTickSound(dynamic store) async {
+    final sound = store?.state?.sound;
+    if (!sound) {
+      return;
+    }
+    await _tickSoundAssetPlayer.stop();
+    await _tickSoundAssetPlayer.seek(Duration.zero, force: true);
+    unawaited(_tickSoundAssetPlayer.play());
   }
 
   @override
   void initState() {
     super.initState();
+    _tickSoundAssetPlayer = AssetsAudioPlayer.withId("tick-sound");
+    _tickSoundAssetPlayer.open(Audio.file("assets/sounds/effects/tick.mp3"),
+        autoStart: false);
     _shuffles = 0;
-    _tickSoundPlayer = AudioPlayer();
-    _tickSoundPlayer.setAsset(
-      "sounds/effects/tick.mp3",
-    );
   }
 
   void showOverlayEntry() {
@@ -107,8 +110,7 @@ class _StartGameButtonState extends State<StartGameButton> {
                     ],
                   ),
                 )),
-                decoration: BoxDecoration(
-                    color: const Color(0xFF454545).withOpacity(0.2)),
+                decoration: BoxDecoration(color: ThemeColors.backdrop),
               ),
             ));
 
@@ -121,7 +123,7 @@ class _StartGameButtonState extends State<StartGameButton> {
 
   @override
   void dispose() {
-    _tickSoundPlayer.dispose();
+    _tickSoundAssetPlayer.dispose();
     super.dispose();
   }
 

@@ -17,7 +17,6 @@ dependencies:
   rive: 0.8.1
   firebase_core: 1.12.0
   assets_audio_player: 3.0.4+1
-  just_audio: 0.9.20
   cloud_firestore: 3.1.8
   # assets_audio_player:
   #   git: https://github.com/simonifergan/Flutter-AssetsAudioPlayer.git

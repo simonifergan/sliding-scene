@@ -93,17 +93,16 @@ class PreviewButton extends StatelessWidget {
             child: Hero(
                 tag: PreviewHero.tag,
                 child: Container(
-                  width: 120,
-                  height: 120,
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  margin: const EdgeInsets.only(right: 2),
-                  child: Preview(
-                    key: const Key("rive-preview-thumbnail"),
-                    animated: false,
-                  ),
-                ))));
+                    width: 120,
+                    height: 120,
+                    clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    margin: const EdgeInsets.only(right: 2),
+                    child: const Icon(
+                      Icons.photo_library_rounded,
+                      color: Colors.white,
+                    )))));
   }
 }

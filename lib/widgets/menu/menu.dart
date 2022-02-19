@@ -5,7 +5,6 @@ import 'package:sliding_scene/services/puzzle_service.dart';
 import 'package:sliding_scene/states/puzzle_state.dart';
 import 'package:sliding_scene/styles/responsive_tile_size.dart';
 import 'package:sliding_scene/widgets/menu/moves.dart';
-import 'package:sliding_scene/widgets/music_player.dart';
 import 'package:sliding_scene/widgets/menu/session_timer.dart';
 
 class _ViewModel {
