@@ -16,4 +16,4 @@ jobs:
           channel: 'stable'
       - uses: bluefireteam/flutter-gh-pages@v7
         with:
-          targetBranch: production
+          targetBranch: pages
