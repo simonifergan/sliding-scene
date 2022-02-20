@@ -1,6 +1,6 @@
 # Sliding Scene
 
-A Flutter Puzzle Hack Entry Project by @simonifergan
+A Flutter Puzzle Hack Entry Project by [@simonifergan](https://github.com/simonifergan)
 
 ## Description
 
@@ -54,9 +54,9 @@ https://creativecommons.org/licenses/by-sa/3.0/
 
 ### Inspiration
 
-Scene was recreated by @simonifergan entirely in [Rive](https://rive.app/) and is inspired by the following YouTube videos:
+Scene was recreated entirely by [@simonifergan](https://github.com/simonifergan) in [Rive](https://rive.app/) and is inspired by the following YouTube videos:
 
 - [Windmill Farm](https://www.youtube.com/watch?v=sm-19RBDW9M)
 - [Bonfire](https://www.youtube.com/watch?v=U_5cgbKYH_g)
 
-Game logic and structure couldn't have been completed without referencing the [Sample Project](https://github.com/VGVentures/slide_puzzle)
+Game logic and structure couldn't have been completed without referencing the [Sample Project](https://github.com/VGVentures/slide_puzzle) by [Very Good Ventures Team](https://github.com/VGVentures).
