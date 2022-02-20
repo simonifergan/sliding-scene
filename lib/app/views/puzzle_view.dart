@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:sliding_scene/reducers/puzzle_reducer.dart';
 import 'package:sliding_scene/services/music_service.dart';
 import 'package:sliding_scene/services/puzzle_service.dart';
 import 'package:sliding_scene/states/puzzle_state.dart';

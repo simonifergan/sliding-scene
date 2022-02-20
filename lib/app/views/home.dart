@@ -61,7 +61,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    Timer(const Duration(seconds: 1, milliseconds: 300), () {
+    Timer(const Duration(seconds: 1), () {
       setState(() {
         isVisible = true;
       });
