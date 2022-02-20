@@ -1,19 +1,29 @@
 # Sliding Scene
 
-A Flutter Puzzle Hack Entry Project
+A Flutter Puzzle Hack Entry Project by @simonifergan
 
 ## Description
 
-Sliding Scene is built with Flutter web and additional tools:
+Sliding Scene is a Sliding Puzzle game built with Flutter & Rive.
+
+## Stack
+
+Sliding Scene is built with [Flutter](https://flutter.dev/) web
+Art & Animation was created in [Rive](https://rive.app/)
+
+### Packages
 
 - [rive](https://pub.dev/packages/rive)
 - [assets_audio_player](https://pub.dev/packages/assets_audio_player)
 - [flutter_redux](https://pub.dev/packages/flutter_redux)
 - [cloud_firestore](https://pub.dev/packages/cloud_firestore)
 
-## Attributions
+### Actions - Automatic Deployment to GitHub Pages with GitHub Actions
 
-This Flutter Puzzle Hack entry was developoed by Simon Ifergan
+- [subosito/flutter-action](https://github.com/subosito/flutter-action)
+- [bluefireteam/flutter-gh-pages](https://github.com/bluefireteam/flutter-gh-pages)
+
+## Attributions
 
 ### Assets
 
@@ -33,9 +43,18 @@ Creative Commons CC BY-SA 3.0
 https://creativecommons.org/licenses/by-sa/3.0/
 ```
 
+#### Sound Fx
+
+```
+Dragging-shoe-boom sound by HeraclitoPD
+https://freesound.org/people/HeraclitoPD/sounds/335016/
+Creative Commons CC BY-SA 3.0
+https://creativecommons.org/licenses/by-sa/3.0/
+```
+
 ### Inspiration
 
-Scene was recreated entirely in [Rive](https://rive.app/) inspired by the following YouTube tutorials:
+Scene was recreated by @simonifergan entirely in [Rive](https://rive.app/) and is inspired by the following YouTube videos:
 
 - [Windmill Farm](https://www.youtube.com/watch?v=sm-19RBDW9M)
 - [Bonfire](https://www.youtube.com/watch?v=U_5cgbKYH_g)

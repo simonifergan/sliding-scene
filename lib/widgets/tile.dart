@@ -35,9 +35,10 @@ class _TileWidgetState extends State<TileWidget> {
   @override
   Widget build(BuildContext context) {
     final tile = widget.tile;
-
-    final tileSize = StoreProvider.of<PuzzleState>(context).state.tileSize;
-    final gameStatus = StoreProvider.of<PuzzleState>(context).state.gameStatus;
+    final state = StoreProvider.of<PuzzleState>(context).state;
+    final tileSize = state.tileSize;
+    final gameStatus = state.gameStatus;
+    final sound = state.sound;
 
     return AnimatedAlign(
         duration: const Duration(milliseconds: 300),
@@ -52,7 +53,11 @@ class _TileWidgetState extends State<TileWidget> {
                 if (gameStatus != GameStatus.playing) {
                   return;
                 }
-                moveTileSound.play();
+
+                if (sound) {
+                  moveTileSound.play();
+                }
+
                 StoreProvider.of<PuzzleState>(context).dispatch(
                     PuzzleAction(type: PuzzleActions.moveTile, payload: tile));
               },
