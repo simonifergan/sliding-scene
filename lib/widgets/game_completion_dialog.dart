@@ -68,15 +68,21 @@ class _GameCompletionDialogState extends State<GameCompletionDialog> {
                   ),
                   Column(
                     children: [
-                      Text(
-                        "You have completed the puzzle in ${FormatTime.formatTime(state.secondsElpased)} and ${state.moves} moves!",
-                        style: TextStyle(
-                            color: ThemeColors.darkBlue, fontSize: 16),
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Text(
+                          "You have completed the puzzle in ${FormatTime.formatTime(state.secondsElpased)} and ${state.moves} moves!",
+                          style: TextStyle(
+                              color: ThemeColors.darkBlue, fontSize: 16),
+                        ),
                       ),
-                      Text(
-                        "Would you like to sign your name in our leaderboards?",
-                        style: TextStyle(
-                            color: ThemeColors.darkBlue, fontSize: 16),
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Text(
+                          "Would you like to sign your name in our leaderboards?",
+                          style: TextStyle(
+                              color: ThemeColors.darkBlue, fontSize: 16),
+                        ),
                       )
                     ],
                   ),

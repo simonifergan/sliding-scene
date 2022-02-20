@@ -40,7 +40,8 @@ flutter:
   assets:
     - images/
     - rive/
-    - sounds/music/purple_cat-crescent_moon.mp3
+    - sounds/music/purrple_cat-crescent_moon.mp3
+    - sounds/music/purrple_cat-cozy-fireplace.mp3
     - sounds/effects/slide.wav
     - sounds/effects/tick.mp3
  

@@ -9,6 +9,7 @@ import 'package:sliding_scene/states/puzzle_state.dart';
 import 'package:sliding_scene/styles/colors.dart';
 import 'package:sliding_scene/styles/responsive_tile_size.dart';
 import 'package:sliding_scene/utils/format.dart';
+import 'package:sliding_scene/widgets/menu_button.dart';
 
 class Leaderboards extends StatefulWidget {
   const Leaderboards(
@@ -66,7 +67,7 @@ class _LeaderboardsState extends State<Leaderboards>
                 foreground: Paint()
                   ..style = PaintingStyle.stroke
                   ..strokeWidth = 1
-                  ..color = ThemeColors.lightBlue),
+                  ..color = ThemeColors.darkBlue),
           ),
           Text(
             text,
@@ -131,7 +132,9 @@ class _LeaderboardsState extends State<Leaderboards>
                     child: SlideTransition(
                         position: _offsetFloat,
                         child: Container(
-                            width: tileSize * 4,
+                            width: tileSize < ResponseTileSize.medium
+                                ? null
+                                : tileSize * 4,
                             height: tileSize < ResponseTileSize.medium
                                 ? tileSize * 8
                                 : tileSize * 4,
@@ -150,30 +153,14 @@ class _LeaderboardsState extends State<Leaderboards>
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(15),
-                                  child: Stack(
-                                    children: [
-                                      Text(
-                                        "Leaderboards",
-                                        style: TextStyle(
-                                            fontSize: 52,
-                                            fontFamily: "MaShanZheng",
-                                            fontStyle: FontStyle.italic,
-                                            letterSpacing: 3,
-                                            foreground: Paint()
-                                              ..style = PaintingStyle.stroke
-                                              ..strokeWidth = 2
-                                              ..color = ThemeColors.darkBlue),
-                                      ),
-                                      Text(
-                                        "Leaderboards",
-                                        style: TextStyle(
-                                            fontSize: 52,
-                                            color: ThemeColors.yellow,
-                                            fontFamily: "MaShanZheng",
-                                            fontStyle: FontStyle.italic,
-                                            letterSpacing: 3),
-                                      ),
-                                    ],
+                                  child: Text(
+                                    "Leaderboards",
+                                    style: TextStyle(
+                                        fontSize: 52,
+                                        color: ThemeColors.darkYellow,
+                                        fontFamily: "MaShanZheng",
+                                        fontStyle: FontStyle.italic,
+                                        letterSpacing: 3),
                                   ),
                                 ),
                                 SingleChildScrollView(
@@ -211,7 +198,7 @@ class _LeaderboardsState extends State<Leaderboards>
                                             columnWidths: const {
                                               0: FractionColumnWidth(0.0005),
                                               1: FractionColumnWidth(0.35),
-                                              2: FractionColumnWidth(0.1),
+                                              2: FractionColumnWidth(0.15),
                                               3: FractionColumnWidth(0.2),
                                               4: FractionColumnWidth(0.3),
                                             },
@@ -277,6 +264,14 @@ class _LeaderboardsState extends State<Leaderboards>
                                             ]);
                                       }),
                                 ),
+                                Container(
+                                  margin: const EdgeInsets.only(top: 50.0),
+                                  child: MenuButton(
+                                    text: "Dismiss",
+                                    onTap: dismissLeaderboards,
+                                    width: 120,
+                                  ),
+                                )
                               ],
                             ))))
               ]),

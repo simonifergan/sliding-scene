@@ -5,18 +5,20 @@ class MenuButton extends StatelessWidget {
   const MenuButton({
     required this.text,
     required this.onTap,
+    this.width = 100,
     Key? key,
   }) : super(key: key);
 
   final String text;
   final Function onTap;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
     return Material(
       type: MaterialType.transparency,
       child: Ink(
-        width: 100,
+        width: width,
         height: 50,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(

@@ -49,10 +49,10 @@ class _TileWidgetState extends State<TileWidget> {
               : SystemMouseCursors.basic,
           child: GestureDetector(
               onTap: () {
-                moveTileSound.play();
                 if (gameStatus != GameStatus.playing) {
                   return;
                 }
+                moveTileSound.play();
                 StoreProvider.of<PuzzleState>(context).dispatch(
                     PuzzleAction(type: PuzzleActions.moveTile, payload: tile));
               },

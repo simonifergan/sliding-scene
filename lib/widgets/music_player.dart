@@ -26,7 +26,9 @@ class _MusicPlayerWidgetState extends State<MusicPlayerWidget> {
   void initState() {
     musicPlayer = AssetsAudioPlayer.withId("music-player-widget");
     musicPlayer.open(Audio.file("assets/sounds/music/${widget.fileName}"),
-        autoStart: widget.sound, loopMode: LoopMode.single, volume: 0.4);
+        autoStart: widget.sound, loopMode: LoopMode.single, volume: 0.3);
+
+    musicPlayer.onErrorDo = ((handler) => handler.player.play());
 
     isActive = widget.sound;
     super.initState();
@@ -34,9 +36,12 @@ class _MusicPlayerWidgetState extends State<MusicPlayerWidget> {
 
   void toggle() async {
     if (isActive) {
-      await musicPlayer.stop().then((_) => musicPlayer.seek(Duration.zero));
+      await musicPlayer.setVolume(0);
     } else {
-      await musicPlayer.play();
+      if (!widget.sound) {
+        await musicPlayer.play();
+      }
+      await musicPlayer.setVolume(0.3);
     }
 
     StoreProvider.of<PuzzleState>(context).dispatch(
@@ -48,8 +53,7 @@ class _MusicPlayerWidgetState extends State<MusicPlayerWidget> {
 
   @override
   void dispose() async {
-    await musicPlayer.stop();
-    await musicPlayer.dispose();
+    musicPlayer.dispose();
     super.dispose();
   }
 
