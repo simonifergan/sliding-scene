@@ -2,6 +2,10 @@
 
 A Flutter Puzzle Hack Entry Project by [@simonifergan](https://github.com/simonifergan)
 
+#### YouTube Submission Video
+
+[![Watch the video](https://img.youtube.com/vi/4Gj_wpPmFAI/sddefault.jpg)](https://youtu.be/4Gj_wpPmFAI)
+
 ## Description
 
 Sliding Scene is a Sliding Puzzle game built with Flutter & Rive.
